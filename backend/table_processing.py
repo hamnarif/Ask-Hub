@@ -575,7 +575,7 @@ def process_text_files_for_paragraphs(input_folder: tempfile.TemporaryDirectory,
     return len(failed_files) == 0  # Return success status
 
 
-def process_pdf_to_summary(pdf_path):
+def process_pdf_to_paragraph(pdf_path):
     try:
         # Step 1: Extract column names from the PDF
         headers = extract_headers_txt(pdf_path)
@@ -643,5 +643,4 @@ def process_pdf_to_summary(pdf_path):
         raise
 
 
-# Call the function
-process_pdf_to_summary("documents/1.pdf")
+# process_pdf_to_paragraph("documents/1.pdf")

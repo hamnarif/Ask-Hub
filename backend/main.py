@@ -1,59 +1,36 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, UploadFile, HTTPException
 from fastapi.responses import JSONResponse
-import shutil
 import os
-from pathlib import Path
-from table_processing import extract_and_save_headers
+from tempfile import NamedTemporaryFile
+from table_processing import process_pdf_to_paragraph
 
 app = FastAPI()
 
-# Define a folder to temporarily save uploaded files
-UPLOAD_FOLDER = "uploaded_pdf"
-OUTPUT_FOLDER = "output_files"
-
-# Ensure folders exist
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-os.makedirs(OUTPUT_FOLDER, exist_ok=True)
-
-@app.post("/upload-pdf/")
-async def upload_pdf(file: UploadFile = File(...)):
+@app.post("/process-pdf/")
+async def process_pdf_endpoint(file: UploadFile):
     """
-    Endpoint to upload a PDF file, process it to extract table headers, 
-    and save the headers in a text file.
-    
-    Parameters:
-        file (UploadFile): The uploaded PDF file.
-    
-    Returns:
-        JSONResponse: A message indicating the success or failure of the operation.
+    Endpoint to process a PDF and generate summaries.
     """
-    # Define the path to save the uploaded file
-    file_path = Path(UPLOAD_FOLDER) / file.filename
-    
+    if not file.filename.endswith('.pdf'):
+        raise HTTPException(status_code=400, detail="Only PDF files are accepted.")
+
     try:
-        # Save the uploaded file
-        with open(file_path, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
-        
-        # Call the table processing function
-        extract_and_save_headers(str(file_path), OUTPUT_FOLDER)
-        
-        # Get the output file path
-        output_file_path = Path(OUTPUT_FOLDER) / f"{file.filename.split('.')[0]}_headers.txt"
-        
-        return JSONResponse(
-            content={
-                "message": "File processed successfully.",
-                "output_file": str(output_file_path)
-            },
-            status_code=200
-        )
+        # Save the uploaded file to a temporary file
+        with NamedTemporaryFile(delete=False, suffix=".pdf") as temp_pdf:
+            temp_pdf.write(await file.read())
+            temp_pdf_path = temp_pdf.name
+
+        # Process the PDF
+        try:
+            process_pdf_to_paragraph(temp_pdf_path)
+            return JSONResponse(content={"message": "PDF processed successfully. Summaries generated in the 'Tables' folder."})
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Processing failed: {e}")
+        finally:
+            # Clean up the temporary file
+            if os.path.exists(temp_pdf_path):
+                os.remove(temp_pdf_path)
+
     except Exception as e:
-        return JSONResponse(
-            content={"error": str(e)},
-            status_code=500
-        )
-    finally:
-        # Clean up the uploaded file
-        if file_path.exists():
-            os.remove(file_path)
+        raise HTTPException(status_code=500, detail=f"File handling failed: {e}")
+
