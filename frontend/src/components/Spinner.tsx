@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-const Spinner: React.FC = () => {
-    const [count, setCount] = useState(0);
+interface SpinnerProps {
+    count: number;
+}
 
-    useEffect(() => {
-        // Increment the count every 100ms up to 100
-        const interval = setInterval(() => {
-            setCount((prev) => (prev < 100 ? prev + 3 : 100));
-        }, 50);
-
-        return () => clearInterval(interval); // Cleanup interval on unmount
-    }, []);
-
+const Spinner: React.FC<SpinnerProps> = ({ count }) => {
     const formattedCount = count.toString().padStart(2, "0");
 
     return (
@@ -55,7 +48,7 @@ const Spinner: React.FC = () => {
                     style={{ color: "#bd976d" }}
                 >
                     <span className="font-thin text-8xl">{formattedCount}</span>
-                    <div className="text-base mt-2 font-normal text-stone-500 ">LOADING</div>
+                    <div className="text-base mt-2 font-normal text-stone-500">LOADING</div>
                 </div>
             </div>
         </div>
