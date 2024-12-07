@@ -24,14 +24,14 @@ const HomePage: React.FC = () => {
                 {/* Content */}
                 <div className="relative z-10 max-w-2xl space-y-4 pl-12 md:pl-24">
                     <h1
-                        className="text-5xl md:text-7xl font-medium"
+                        className="text-5xl md:text-7xl font-medium uppercase tracking-widest"
                         style={{
                             color: "#f2c185",
                             textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
                             marginBottom: "20px",
                         }}
                     >
-                        Ask-Hub
+                        ASK HUB
                     </h1>
                     <h2
                         className="text-2xl md:text-4xl font-normal"
