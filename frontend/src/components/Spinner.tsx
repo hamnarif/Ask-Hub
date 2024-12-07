@@ -14,9 +14,13 @@ const Spinner: React.FC<SpinnerProps> = ({ count }) => {
                 {/* SVG Circle */}
                 <svg
                     className="absolute"
-                    width="420"
-                    height="420"
+                    width="50vw"
+                    height="50vw"
                     viewBox="0 0 100 100"
+                    style={{
+                        maxWidth: "420px", // Max size for large screens
+                        maxHeight: "420px",
+                    }}
                 >
                     {/* Background Circle */}
                     <circle
@@ -47,8 +51,12 @@ const Spinner: React.FC<SpinnerProps> = ({ count }) => {
                     className="absolute text-center"
                     style={{ color: "#bd976d" }}
                 >
-                    <span className="font-thin text-8xl">{formattedCount}</span>
-                    <div className="text-base mt-2 font-normal text-stone-500">LOADING</div>
+                    <span className="font-thin text-6xl md:text-8xl">
+                        {formattedCount}
+                    </span>
+                    <div className="text-sm md:text-base mt-2 font-normal text-stone-500">
+                        LOADING
+                    </div>
                 </div>
             </div>
         </div>
