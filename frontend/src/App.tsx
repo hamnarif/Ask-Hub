@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import Spinner from "./components/Spinner";
 import HomePage from "./components/HomePage";
 
 const App: React.FC = () => {
-  const [count, setCount] = useState(0); // Controls spinner loading percentage
-  const [loading, setLoading] = useState(true); // Controls overall transition
+  const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Increment count every 50ms up to 100
     const interval = setInterval(() => {
       setCount((prev) => (prev < 100 ? prev + 3 : 100));
     }, 25);
 
-    // Transition to HomePage after Spinner finishes
     if (count === 100) {
       clearInterval(interval);
-      const timeout = setTimeout(() => {
-        setLoading(false);
-      }, 200); // Add slight delay for smoother transition
+      const timeout = setTimeout(() => setLoading(false), 500);
 
       return () => clearTimeout(timeout);
     }
@@ -27,23 +24,35 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-stone-900">
-      {/* Spinner Component with Fade-Out */}
-      <div
-        className={`${
-          loading ? "opacity-100 scale-100" : "opacity-0 scale-90"
-        } transition-all duration-1000 absolute inset-0 flex items-center justify-center`}
-      >
-        <Spinner count={count} />
-      </div>
+      <AnimatePresence>
+        {/* Spinner */}
+        {loading && (
+          <motion.div
+            className="absolute inset-0 flex items-center justify-center"
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.8 }}
+          >
+            <Spinner count={count} />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* HomePage Component with Fade-In */}
-      <div
-        className={`${
-          loading ? "opacity-0 scale-90" : "opacity-100 scale-100"
-        } transition-all duration-1000`}
-      >
-        <HomePage />
-      </div>
+      <AnimatePresence>
+        {/* HomePage */}
+        {!loading && (
+          <motion.div
+            className="absolute inset-0"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <HomePage />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

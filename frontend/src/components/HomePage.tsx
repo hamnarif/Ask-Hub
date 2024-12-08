@@ -1,8 +1,19 @@
 import React from "react";
-import backgroundImage from "../assets/web2gold.png"; // Correct path to your image
+import backgroundImage from "../assets/web2gold.png";
 import Navbar from "./Navbar";
+import { motion } from "framer-motion";
 
 const HomePage: React.FC = () => {
+
+    const textVariants = {
+        hidden: { opacity: 0, y: -20 },
+        visible: (delay: number) => ({
+            opacity: 1,
+            y: 0,
+            transition: { delay, duration: 0.8 },
+        }),
+    };
+
     return (
         <div className="bg-stone-900 text-white overflow-hidden">
             {/* Navbar */}
@@ -23,42 +34,63 @@ const HomePage: React.FC = () => {
 
                 {/* Content */}
                 <div className="relative z-10 max-w-2xl space-y-4 pl-12 md:pl-24">
-                    <h1
+                    {/* Heading */}
+                    <motion.h1
                         className="text-5xl md:text-7xl font-medium uppercase tracking-widest"
                         style={{
                             color: "#f2c185",
                             textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
                             marginBottom: "20px",
                         }}
+                        initial="hidden"
+                        animate="visible"
+                        custom={0.2}
+                        variants={textVariants}
                     >
                         ASK HUB
-                    </h1>
-                    <h2
+                    </motion.h1>
+
+                    {/* Subheading */}
+                    <motion.h2
                         className="text-2xl md:text-4xl font-normal"
                         style={{
                             color: "#f2e9da",
                             textShadow: "1px 1px 3px rgba(0, 0, 0, 0.5)",
                             marginBottom: "16px",
                         }}
+                        initial="hidden"
+                        animate="visible"
+                        custom={0.4}
+                        variants={textVariants}
                     >
                         Your Data, Your Control, Our AI
-                    </h2>
-                    <p
+                    </motion.h2>
+
+                    {/* Description */}
+                    <motion.p
                         className="text-lg md:text-xl font-light leading-relaxed"
                         style={{
                             color: "#ffffff",
                             textShadow: "1px 1px 2px rgba(0, 0, 0, 0.6)",
                             marginBottom: "24px",
                         }}
+                        initial="hidden"
+                        animate="visible"
+                        custom={0.6}
+                        variants={textVariants}
                     >
                         Simplifying answers with AI-powered assistance while keeping your data safe.
                         Experience the power of privacy-first solutions.
-                    </p>
+                    </motion.p>
                 </div>
 
                 {/* Buttons at Bottom Right */}
-                <div
+                <motion.div
                     className="absolute bottom-8 right-8 flex flex-col gap-4 z-10"
+                    initial="hidden"
+                    animate="visible"
+                    custom={0.8}
+                    variants={textVariants}
                 >
                     <button className="bg-[#bd976d] hover:bg-[#a87f58] text-white py-2 px-6 rounded-lg text-sm md:text-base">
                         Try Free Trial
@@ -66,7 +98,7 @@ const HomePage: React.FC = () => {
                     <button className="bg-stone-600 hover:bg-stone-300 py-2 px-6 rounded-lg text-[#bd976d] text-sm md:text-base">
                         Learn More
                     </button>
-                </div>
+                </motion.div>
             </section>
 
             {/* Services Section */}
