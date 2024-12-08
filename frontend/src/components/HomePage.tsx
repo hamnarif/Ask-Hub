@@ -29,9 +29,10 @@ const HomePage: React.FC = () => {
             {/* Navbar */}
             <Navbar />
 
+
             {/* Hero Section */}
             <section
-                className="relative flex flex-col justify-center text-left min-h-screen"
+                className="relative flex flex-col justify-center text-left min-h-screen md:items-start items-center"
                 style={{
                     backgroundImage: `url(${backgroundImage})`,
                     backgroundRepeat: "no-repeat",
@@ -43,68 +44,73 @@ const HomePage: React.FC = () => {
                 <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
                 {/* Content */}
-                <div className="relative z-10 max-w-2xl space-y-4 pl-12 md:pl-24">
-                    <motion.h1
-                        className="text-5xl md:text-7xl font-medium uppercase tracking-widest"
-                        style={{
-                            color: "#f2c185",
-                            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
-                            marginBottom: "20px",
-                        }}
-                        initial="hidden"
-                        animate="visible"
-                        custom={0.2}
-                        variants={textVariants}
-                    >
-                        ASK HUB
-                    </motion.h1>
-                    <motion.h2
-                        className="text-2xl md:text-4xl font-normal"
-                        style={{
-                            color: "#f2e9da",
-                            textShadow: "1px 1px 3px rgba(0, 0, 0, 0.5)",
-                            marginBottom: "16px",
-                        }}
-                        initial="hidden"
-                        animate="visible"
-                        custom={0.4}
-                        variants={textVariants}
-                    >
-                        Your Data, Your Control, Our AI
-                    </motion.h2>
-                    <motion.p
-                        className="text-lg md:text-xl font-light leading-relaxed"
-                        style={{
-                            color: "#ffffff",
-                            textShadow: "1px 1px 2px rgba(0, 0, 0, 0.6)",
-                            marginBottom: "24px",
-                        }}
-                        initial="hidden"
-                        animate="visible"
-                        custom={0.6}
-                        variants={textVariants}
-                    >
-                        Simplifying answers with AI-powered assistance while keeping your data safe.
-                        Experience the power of privacy-first solutions.
-                    </motion.p>
-                </div>
+                <div className="relative flex flex-col md:flex-row ">
+                    {/* Text Content */}
+                    <div className="max-w-2xl md:pl-24 text-center md:text-left space-y-4">
+                        <motion.h1
+                            className="text-5xl md:text-7xl font-medium uppercase tracking-widest"
+                            style={{
+                                color: "#f2c185",
+                                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+                            }}
+                            initial="hidden"
+                            animate="visible"
+                            custom={0.2}
+                            variants={textVariants}
+                        >
+                            ASK HUB
+                        </motion.h1>
+                        <motion.h2
+                            className="text-2xl md:text-4xl font-normal"
+                            style={{
+                                color: "#f2e9da",
+                                textShadow: "1px 1px 3px rgba(0, 0, 0, 0.5)",
+                            }}
+                            initial="hidden"
+                            animate="visible"
+                            custom={0.4}
+                            variants={textVariants}
+                        >
+                            Your Data, Your Control, Our AI
+                        </motion.h2>
+                        <motion.p
+                            className="text-lg md:text-xl font-light leading-relaxed hidden md:block"
+                            style={{
+                                color: "#ffffff",
+                                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.6)",
+                            }}
+                            initial="hidden"
+                            animate="visible"
+                            custom={0.6}
+                            variants={textVariants}
+                        >
+                            Simplifying answers with AI-powered assistance while keeping your data safe.
+                            Experience the power of privacy-first solutions.
+                        </motion.p>
 
-                {/* Buttons at Bottom Right */}
-                <motion.div
-                    className="absolute bottom-8 right-8 flex flex-col gap-4 z-10"
-                    initial="hidden"
-                    animate="visible"
-                    custom={0.8}
-                    variants={textVariants}
-                >
-                    <button className="bg-[#bd976d] hover:bg-[#a87f58] text-white py-2 px-6 rounded-lg text-sm md:text-base">
-                        Try Free Trial
-                    </button>
-                    <button className="bg-stone-600 hover:bg-stone-300 py-2 px-6 rounded-lg text-[#bd976d] text-sm md:text-base">
-                        Learn More
-                    </button>
-                </motion.div>
+                    </div>
+
+                    {/* Button */}
+                    <div className="flex w-full justify-center md:w-auto j ">
+                        <motion.div
+                            className="flex flex-col gap-4 items-center md:justify-end"
+                            initial="hidden"
+                            animate="visible"
+                            custom={0.8}
+                            variants={textVariants}
+                        >
+                            <button className="bg-[#bd976d] text-white py-2 px-6 my-4 rounded-lg text-sm md:text-base relative overflow-hidden group">
+                                <span className="absolute inset-0 bg-gradient-to-r from-[#a87f58] to-[#292524] translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300 ease-in-out"></span>
+                                <span className="tracking-wider relative">Free Trial</span>
+                            </button>
+
+
+                        </motion.div>
+                    </div>
+                </div>
             </section>
+
+
 
             {/* Services Section */}
             <motion.section
