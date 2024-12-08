@@ -1,9 +1,14 @@
 import React from "react";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 import backgroundImage from "../assets/web2gold.png";
 import Navbar from "./Navbar";
-import { motion } from "framer-motion";
 
 const HomePage: React.FC = () => {
+    const [servicesRef, servicesInView] = useInView({
+        triggerOnce: true,
+        threshold: 0.2, // Animation starts when 20% of the section is visible
+    });
 
     const textVariants = {
         hidden: { opacity: 0, y: -20 },
@@ -12,6 +17,11 @@ const HomePage: React.FC = () => {
             y: 0,
             transition: { delay, duration: 0.8 },
         }),
+    };
+
+    const sectionVariants = {
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
     };
 
     return (
@@ -34,7 +44,6 @@ const HomePage: React.FC = () => {
 
                 {/* Content */}
                 <div className="relative z-10 max-w-2xl space-y-4 pl-12 md:pl-24">
-                    {/* Heading */}
                     <motion.h1
                         className="text-5xl md:text-7xl font-medium uppercase tracking-widest"
                         style={{
@@ -49,8 +58,6 @@ const HomePage: React.FC = () => {
                     >
                         ASK HUB
                     </motion.h1>
-
-                    {/* Subheading */}
                     <motion.h2
                         className="text-2xl md:text-4xl font-normal"
                         style={{
@@ -65,8 +72,6 @@ const HomePage: React.FC = () => {
                     >
                         Your Data, Your Control, Our AI
                     </motion.h2>
-
-                    {/* Description */}
                     <motion.p
                         className="text-lg md:text-xl font-light leading-relaxed"
                         style={{
@@ -102,12 +107,21 @@ const HomePage: React.FC = () => {
             </section>
 
             {/* Services Section */}
-            <section className="py-12 px-4 sm:px-8 lg:px-12">
+            <motion.section
+                className="py-12 px-4 sm:px-8 lg:px-12"
+                ref={servicesRef}
+                initial="hidden"
+                animate={servicesInView ? "visible" : "hidden"}
+                variants={sectionVariants}
+            >
                 <h2 className="text-2xl md:text-3xl font-bold text-center mb-10 text-[#bd976d]">
                     Our Services
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                    <div className="bg-stone-800 p-4 md:p-6 rounded-lg shadow-lg text-center">
+                    <motion.div
+                        className="bg-stone-800 p-4 md:p-6 rounded-lg shadow-lg text-center"
+                        variants={sectionVariants}
+                    >
                         <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-4 text-[#bd976d]">
                             AI Chatbot Integration
                         </h3>
@@ -115,33 +129,42 @@ const HomePage: React.FC = () => {
                             Enhance your website with an AI-powered chatbot capable of answering user queries
                             in natural language.
                         </p>
-                    </div>
-                    <div className="bg-stone-800 p-4 md:p-6 rounded-lg shadow-lg text-center">
+                    </motion.div>
+                    <motion.div
+                        className="bg-stone-800 p-4 md:p-6 rounded-lg shadow-lg text-center"
+                        variants={sectionVariants}
+                    >
                         <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-4 text-[#bd976d]">
                             Privacy-First RAG Systems
                         </h3>
                         <p className="text-stone-50 text-sm md:text-base">
                             Fully local AI systems to keep your sensitive data private and secure.
                         </p>
-                    </div>
-                    <div className="bg-stone-800 p-4 md:p-6 rounded-lg shadow-lg text-center">
+                    </motion.div>
+                    <motion.div
+                        className="bg-stone-800 p-4 md:p-6 rounded-lg shadow-lg text-center"
+                        variants={sectionVariants}
+                    >
                         <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-4 text-[#bd976d]">
                             Custom AI Solutions
                         </h3>
                         <p className="text-stone-50 text-sm md:text-base">
                             Tailored solutions for complex use cases with complete privacy assurance.
                         </p>
-                    </div>
-                    <div className="bg-stone-800 p-4 md:p-6 rounded-lg shadow-lg text-center">
+                    </motion.div>
+                    <motion.div
+                        className="bg-stone-800 p-4 md:p-6 rounded-lg shadow-lg text-center"
+                        variants={sectionVariants}
+                    >
                         <h3 className="text-lg md:text-xl font-semibold mb-2 md:mb-4 text-[#bd976d]">
                             Custom User Interface
                         </h3>
                         <p className="text-stone-50 text-sm md:text-base">
                             Tailored interface for your business or organisation.
                         </p>
-                    </div>
+                    </motion.div>
                 </div>
-            </section>
+            </motion.section>
         </div>
     );
 };
