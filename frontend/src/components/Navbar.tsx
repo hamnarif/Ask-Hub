@@ -3,24 +3,53 @@ import React, { useState } from "react";
 const Navbar: React.FC = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+    const handleHomeClick = () => {
+        if (window.location.pathname === "/") {
+            // Scroll to the top if already on the home page
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+            // Redirect to the home page
+            window.location.href = "/";
+        }
+    };
+
+    const handleServicesClick = () => {
+        if (window.location.pathname === "/") {
+            // Scroll to the "Services" section if on the home page
+            const servicesSection = document.getElementById("services-section");
+            if (servicesSection) {
+                servicesSection.scrollIntoView({ behavior: "smooth" });
+            }
+        } else {
+            // Redirect to the home page and scroll to the "Services" section
+            window.location.href = "/#services-section";
+        }
+    };
+
     return (
         <nav className="fixed top-0 w-full z-20 bg-stone-900 bg-opacity-30 backdrop-blur-md border-b border-[#bd976d]">
             <div className="flex justify-end items-center px-6 sm:px-12 md:px-20 py-4">
                 {/* Navigation Links for Larger Screens */}
                 <ul className="hidden sm:flex space-x-6 md:space-x-8 text-[#f2e9da] text-sm sm:text-base md:text-lg font-medium uppercase tracking-widest">
-                    <li className="hover:text-[#bd976d] hover:drop-shadow-[0_0_6px_#bd976d] transition-all duration-300 cursor-pointer">
+                    <li
+                        className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer"
+                        onClick={handleHomeClick}
+                    >
                         HOME
                     </li>
-                    <li className="hover:text-[#bd976d] hover:drop-shadow-[0_0_6px_#bd976d] transition-all duration-300 cursor-pointer">
-                        ABOUT
-                    </li>
-                    <li className="hover:text-[#bd976d] hover:drop-shadow-[0_0_6px_#bd976d] transition-all duration-300 cursor-pointer">
+                    <li
+                        className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer"
+                        onClick={handleServicesClick}
+                    >
                         SERVICES
                     </li>
-                    <li className="hover:text-[#bd976d] hover:drop-shadow-[0_0_6px_#bd976d] transition-all duration-300 cursor-pointer">
+                    <li className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer">
+                        ABOUT
+                    </li>
+                    <li className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer">
                         PRICING
                     </li>
-                    <li className="hover:text-[#bd976d] hover:drop-shadow-[0_0_6px_#bd976d] transition-all duration-300 cursor-pointer">
+                    <li className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer">
                         CONTACT
                     </li>
                 </ul>
@@ -45,31 +74,37 @@ const Navbar: React.FC = () => {
             >
                 <ul className="flex flex-col items-end bg-stone-900 bg-opacity-80 backdrop-blur-md border border-[#bd976d] px-4 py-2 rounded-lg shadow-lg">
                     <li
-                        className="hover:text-[#bd976d] hover:drop-shadow-[0_0_6px_#bd976d] transition-all duration-300 cursor-pointer py-1 text-right"
-                        onClick={() => setIsMenuOpen(false)}
+                        className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer py-1 text-right"
+                        onClick={() => {
+                            handleHomeClick();
+                            setIsMenuOpen(false);
+                        }}
                     >
                         HOME
                     </li>
                     <li
-                        className="hover:text-[#bd976d] hover:drop-shadow-[0_0_6px_#bd976d] transition-all duration-300 cursor-pointer py-1 text-right"
+                        className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer py-1 text-right"
+                        onClick={() => {
+                            handleServicesClick();
+                            setIsMenuOpen(false);
+                        }}
+                    >
+                        SERVICES
+                    </li>
+                    <li
+                        className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer py-1 text-right"
                         onClick={() => setIsMenuOpen(false)}
                     >
                         ABOUT
                     </li>
                     <li
-                        className="hover:text-[#bd976d] hover:drop-shadow-[0_0_6px_#bd976d] transition-all duration-300 cursor-pointer py-1 text-right"
-                        onClick={() => setIsMenuOpen(false)}
-                    >
-                        SERVICES
-                    </li>
-                    <li
-                        className="hover:text-[#bd976d] hover:drop-shadow-[0_0_6px_#bd976d] transition-all duration-300 cursor-pointer py-1 text-right"
+                        className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer py-1 text-right"
                         onClick={() => setIsMenuOpen(false)}
                     >
                         PRICING
                     </li>
                     <li
-                        className="hover:text-[#bd976d] hover:drop-shadow-[0_0_6px_#bd976d] transition-all duration-300 cursor-pointer py-1 text-right"
+                        className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer py-1 text-right"
                         onClick={() => setIsMenuOpen(false)}
                     >
                         CONTACT

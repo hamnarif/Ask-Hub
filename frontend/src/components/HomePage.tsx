@@ -114,6 +114,7 @@ const HomePage: React.FC = () => {
 
             {/* Services Section */}
             <motion.section
+                id="services-section"
                 className="py-12 px-4 sm:px-8 lg:px-12"
                 ref={servicesRef}
                 initial="hidden"
