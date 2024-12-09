@@ -10,6 +10,11 @@ const HomePage: React.FC = () => {
         threshold: 0.2,
     });
 
+    const [aboutRef, aboutInView] = useInView({
+        triggerOnce: false,
+        threshold: 0.1, // Trigger animation earlier for "About Us"
+    });
+
     const [retriggerAnimation, setRetriggerAnimation] = useState(false);
 
     const textVariants = {
@@ -124,13 +129,14 @@ const HomePage: React.FC = () => {
                 </div>
             </section>
 
+
             {/* About Section */}
             <motion.section
                 id="about-section"
                 className="py-12 px-4 sm:px-8 lg:px-12"
-                ref={servicesRef}
+                ref={aboutRef} // Independent ref for About Us
                 initial="hidden"
-                animate={retriggerAnimation || servicesInView ? "visible" : "hidden"}
+                animate={aboutInView ? "visible" : "hidden"} // Animation trigger for About Us
                 variants={sectionVariants}
             >
                 <h2 className="text-4xl md:text-6xl font-bold text-left tracking-wider mb-10 text-[#bd976d]">
@@ -181,7 +187,7 @@ const HomePage: React.FC = () => {
                             key={index}
                             className="p-4 min-h-[4rem] max-h-[12rem] rounded-lg shadow-lg text-center relative overflow-hidden bg-[rgba(255,255,255,0.1)] backdrop-blur-lg border border-[rgba(255,255,255,0.2)] hover:max-h-[16rem] transition-all duration-500 ease-in-out group hover:shadow-[0px_0px_15px_5px_rgba(255,215,150,0.6)]"
                         >
-                            <h3 className="text-4xl font-bold text-[#f2e9da] group-hover:text-[#bd976d] group-hover:text-2xl group-hover:translate-y-[-10%] transition-all duration-500 ease-in-out tracking-wider flex items-center justify-center">
+                            <h3 className="text-3xl font-bold text-[#f2e9da] group-hover:text-[#bd976d] group-hover:text-2xl group-hover:translate-y-[-10%] transition-all duration-500 ease-in-out tracking-wider flex items-center justify-center">
                                 {service.title}
                             </h3>
                             <p className="opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out text-stone-50 text-base mt-2">
