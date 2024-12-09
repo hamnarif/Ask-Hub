@@ -220,8 +220,8 @@ const HomePage: React.FC = () => {
             >
 
                 <div className="flex justify-center">
-                    <div className="w-full max-w-xl p-8 rounded-lg shadow-lg bg-[#292524] border border-[rgba(255,255,255,0.2)]">
-                        <h2 className="text-2xl md:text-3xl font-bold text-center tracking-wider mb-10 text-[#bd976d]">
+                    <div className="w-full max-w-3xl  p-8  shadow-lg bg-[#292524] border border-[rgba(255,255,255,0.2)]">
+                        <h2 className="text-2xl md:text-5xl font-bold text-center tracking-wider mb-10 text-[#bd976d]">
                             Get in Touch with Us!
                         </h2>
 
