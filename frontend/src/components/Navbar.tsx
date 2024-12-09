@@ -3,7 +3,8 @@ import React, { useState } from "react";
 const Navbar: React.FC<{
     onServicesClick: () => void;
     onAboutClick: () => void;
-}> = ({ onServicesClick, onAboutClick }) => {
+    onContactClick: () => void;
+}> = ({ onServicesClick, onAboutClick, onContactClick }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const handleHomeClick = () => {
@@ -19,6 +20,14 @@ const Navbar: React.FC<{
             onAboutClick();
         } else {
             window.location.href = "/#about-section";
+        }
+    };
+
+    const handleContactClick = () => {
+        if (window.location.pathname === "/") {
+            onContactClick();
+        } else {
+            window.location.href = "/#contact-section";
         }
     };
 
@@ -48,7 +57,10 @@ const Navbar: React.FC<{
                     <li className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer">
                         PRICING
                     </li>
-                    <li className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer">
+                    <li
+                        className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer"
+                        onClick={handleContactClick}
+                    >
                         CONTACT
                     </li>
                 </ul>
@@ -107,7 +119,10 @@ const Navbar: React.FC<{
                     </li>
                     <li
                         className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer py-1 text-right"
-                        onClick={() => setIsMenuOpen(false)}
+                        onClick={() => {
+                            handleContactClick();
+                            setIsMenuOpen(false);
+                        }}
                     >
                         CONTACT
                     </li>
