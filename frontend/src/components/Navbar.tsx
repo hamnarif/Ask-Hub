@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 
-const Navbar: React.FC<{ onServicesClick: () => void }> = ({ onServicesClick }) => {
+const Navbar: React.FC<{
+    onServicesClick: () => void;
+    onAboutClick: () => void;
+}> = ({ onServicesClick, onAboutClick }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const handleHomeClick = () => {
@@ -8,6 +11,14 @@ const Navbar: React.FC<{ onServicesClick: () => void }> = ({ onServicesClick }) 
             window.scrollTo({ top: 0, behavior: "smooth" });
         } else {
             window.location.href = "/";
+        }
+    };
+
+    const handleAboutClick = () => {
+        if (window.location.pathname === "/") {
+            onAboutClick();
+        } else {
+            window.location.href = "/#about-section";
         }
     };
 
@@ -28,7 +39,10 @@ const Navbar: React.FC<{ onServicesClick: () => void }> = ({ onServicesClick }) 
                     >
                         SERVICES
                     </li>
-                    <li className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer">
+                    <li
+                        className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer"
+                        onClick={handleAboutClick}
+                    >
                         ABOUT
                     </li>
                     <li className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer">
@@ -78,7 +92,10 @@ const Navbar: React.FC<{ onServicesClick: () => void }> = ({ onServicesClick }) 
                     </li>
                     <li
                         className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer py-1 text-right"
-                        onClick={() => setIsMenuOpen(false)}
+                        onClick={() => {
+                            handleAboutClick();
+                            setIsMenuOpen(false);
+                        }}
                     >
                         ABOUT
                     </li>
