@@ -117,62 +117,58 @@ const HomePage: React.FC = () => {
                 </div>
             </section>
 
-
-
-            {/* Services Section */}
-            <motion.section
-                id="services-section"
-                className="py-12 px-4 sm:px-8 lg:px-12"
-                ref={servicesRef}
-                initial="hidden"
-                animate={retriggerAnimation || servicesInView ? "visible" : "hidden"}
-                variants={sectionVariants}
+{/* Services Section */}
+<motion.section
+    id="services-section"
+    className="py-12 px-4 sm:px-8 lg:px-12"
+    ref={servicesRef}
+    initial="hidden"
+    animate={retriggerAnimation || servicesInView ? "visible" : "hidden"}
+    variants={sectionVariants}
+>
+    <h2 className="text-4xl md:text-6xl font-bold text-left tracking-wider mb-10 text-[#bd976d]">
+        SERVICES
+    </h2>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        {/* Service Card */}
+        {[
+            {
+                title: "AI Chatbot Integration",
+                description:
+                    "Enhance your website with an AI-powered chatbot capable of answering user queries in natural language.",
+            },
+            {
+                title: "Privacy-First RAG Systems",
+                description:
+                    "Fully local AI systems to keep your sensitive data private and secure.",
+            },
+            {
+                title: "Custom AI Solutions",
+                description:
+                    "Tailored solutions for complex use cases with complete privacy assurance.",
+            },
+            {
+                title: "Custom User Interface",
+                description:
+                    "Tailored interface for your business or organisation.",
+            },
+        ].map((service, index) => (
+            <div
+                key={index}
+                className="p-4 min-h-[4rem] max-h-[12rem] rounded-lg shadow-lg text-center relative overflow-hidden bg-[rgba(255,255,255,0.1)] backdrop-blur-lg border border-[rgba(255,255,255,0.2)] hover:max-h-[16rem] transition-all duration-500 ease-in-out group hover:shadow-[0px_0px_15px_5px_rgba(255,215,150,0.6)]"
             >
-                <h2 className="text-4xl md:text-6xl font-bold text-left tracking-wider mb-10 text-[#bd976d]">
-                    SERVICES
-                </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                    {/* Service Card */}
-                    {[
-                        {
-                            title: "AI Chatbot Integration",
-                            description:
-                                "Enhance your website with an AI-powered chatbot capable of answering user queries in natural language.",
-                        },
-                        {
-                            title: "Privacy-First RAG Systems",
-                            description:
-                                "Fully local AI systems to keep your sensitive data private and secure.",
-                        },
-                        {
-                            title: "Custom AI Solutions",
-                            description:
-                                "Tailored solutions for complex use cases with complete privacy assurance.",
-                        },
-                        {
-                            title: "Custom User Interface",
-                            description:
-                                "Tailored interface for your business or organisation.",
-                        },
-                    ].map((service, index) => (
-                        <div
-                            key={index}
-                            className="p-4 h-48 rounded-lg shadow-lg text-center relative overflow-hidden bg-[rgba(255,255,255,0.1)] backdrop-blur-lg border border-[rgba(255,255,255,0.2)] hover:scale-105 transition-transform duration-500 ease-in-out group hover:shadow-[0px_0px_15px_5px_rgba(255,215,150,0.6)]"
-                        >
-                            {/* Title */}
-                            <h3 className="text-3xl font-bold text-[#bd976d] group-hover:text-2xl group-hover:translate-y-[-10%] transition-all duration-500 ease-in-out tracking-wider flex items-center justify-center">
-                                {service.title}
-                            </h3>
-                            {/* Description */}
-                            <p className="absolute bottom-6 left-4 right-4 text-stone-50 text-sm opacity-0 group-hover:opacity-100 group-hover:translate-y-[-5%] transition-all duration-500 ease-in-out">
-                                {service.description}
-                            </p>
-                        </div>
-                    ))}
-                </div>
-            </motion.section>
-
-
+                {/* Title */}
+                <h3 className="text-4xl font-bold text-[#bd976d] group-hover:text-2xl group-hover:translate-y-[-10%] transition-all duration-500 ease-in-out tracking-wider flex items-center justify-center">
+                    {service.title}
+                </h3>
+                {/* Description */}
+                <p className="opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out text-stone-50 text-sm mt-2">
+                    {service.description}
+                </p>
+            </div>
+        ))}
+    </div>
+</motion.section>
 
         </div>
     );
