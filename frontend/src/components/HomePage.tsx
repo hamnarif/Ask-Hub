@@ -117,6 +117,8 @@ const HomePage: React.FC = () => {
                 </div>
             </section>
 
+
+
             {/* Services Section */}
             <motion.section
                 id="services-section"
@@ -130,47 +132,48 @@ const HomePage: React.FC = () => {
                     SERVICES
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                    {/* Service Card 1 */}
-                    <div className="p-6 rounded-lg shadow-lg text-center relative overflow-hidden bg-[rgba(255,255,255,0.1)] backdrop-blur-lg border border-[rgba(255,255,255,0.2)] hover:scale-105 transition-transform duration-500 ease-in-out group hover:shadow-[0px_0px_15px_5px_rgba(255,215,150,0.6)]">
-                        <h3 className="text-2xl font-medium text-[#bd976d] group-hover:translate-y-[-50%] group-hover:scale-90 transition-all duration-500 ease-in-out tracking-widest">
-                            AI Chatbot Integration
-                        </h3>
-                        <p className="text-stone-50 text-sm opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-in-out">
-                            Enhance your website with an AI-powered chatbot capable of answering user queries in natural language.
-                        </p>
-                    </div>
-
-                    {/* Service Card 2 */}
-                    <div className="p-6 rounded-lg shadow-lg text-center relative overflow-hidden bg-[rgba(255,255,255,0.1)] backdrop-blur-lg border border-[rgba(255,255,255,0.2)] hover:scale-105 transition-transform duration-500 ease-in-out group hover:shadow-[0px_0px_15px_5px_rgba(255,215,150,0.6)]">
-                        <h3 className="text-2xl font-medium text-[#bd976d] group-hover:translate-y-[-50%] group-hover:scale-90 transition-all duration-500 ease-in-out tracking-widest my-4">
-                            Privacy-First RAG Systems
-                        </h3>
-                        <p className="text-stone-50 text-sm opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-in-out">
-                            Fully local AI systems to keep your sensitive data private and secure.
-                        </p>
-                    </div>
-
-                    {/* Service Card 3 */}
-                    <div className="p-6 rounded-lg shadow-lg text-center relative overflow-hidden bg-[rgba(255,255,255,0.1)] backdrop-blur-lg border border-[rgba(255,255,255,0.2)] hover:scale-105 transition-transform duration-500 ease-in-out group hover:shadow-[0px_0px_15px_5px_rgba(255,215,150,0.6)]">
-                        <h3 className="text-2xl font-medium text-[#bd976d] group-hover:translate-y-[-50%] group-hover:scale-90 transition-all duration-500 ease-in-out tracking-widest">
-                            Custom AI Solutions
-                        </h3>
-                        <p className="text-stone-50 text-sm opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-in-out">
-                            Tailored solutions for complex use cases with complete privacy assurance.
-                        </p>
-                    </div>
-
-                    {/* Service Card 4 */}
-                    <div className="p-6 rounded-lg shadow-lg text-center relative overflow-hidden bg-[rgba(255,255,255,0.1)] backdrop-blur-lg border border-[rgba(255,255,255,0.2)] hover:scale-105 transition-transform duration-500 ease-in-out group hover:shadow-[0px_0px_15px_5px_rgba(255,215,150,0.6)]">
-                        <h3 className="text-2xl font-medium text-[#bd976d] group-hover:translate-y-[-50%] group-hover:scale-90 transition-all duration-500 ease-in-out tracking-widest">
-                            Custom User Interface
-                        </h3>
-                        <p className="text-stone-50 text-sm opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-in-out">
-                            Tailored interface for your business or organisation.
-                        </p>
-                    </div>
+                    {/* Service Card */}
+                    {[
+                        {
+                            title: "AI Chatbot Integration",
+                            description:
+                                "Enhance your website with an AI-powered chatbot capable of answering user queries in natural language.",
+                        },
+                        {
+                            title: "Privacy-First RAG Systems",
+                            description:
+                                "Fully local AI systems to keep your sensitive data private and secure.",
+                        },
+                        {
+                            title: "Custom AI Solutions",
+                            description:
+                                "Tailored solutions for complex use cases with complete privacy assurance.",
+                        },
+                        {
+                            title: "Custom User Interface",
+                            description:
+                                "Tailored interface for your business or organisation.",
+                        },
+                    ].map((service, index) => (
+                        <div
+                            key={index}
+                            className="p-4 h-48 rounded-lg shadow-lg text-center relative overflow-hidden bg-[rgba(255,255,255,0.1)] backdrop-blur-lg border border-[rgba(255,255,255,0.2)] hover:scale-105 transition-transform duration-500 ease-in-out group hover:shadow-[0px_0px_15px_5px_rgba(255,215,150,0.6)]"
+                        >
+                            {/* Title */}
+                            <h3 className="text-3xl font-bold text-[#bd976d] group-hover:text-2xl group-hover:translate-y-[-10%] transition-all duration-500 ease-in-out tracking-wider flex items-center justify-center">
+                                {service.title}
+                            </h3>
+                            {/* Description */}
+                            <p className="absolute bottom-6 left-4 right-4 text-stone-50 text-sm opacity-0 group-hover:opacity-100 group-hover:translate-y-[-5%] transition-all duration-500 ease-in-out">
+                                {service.description}
+                            </p>
+                        </div>
+                    ))}
                 </div>
             </motion.section>
+
+
+
         </div>
     );
 };
