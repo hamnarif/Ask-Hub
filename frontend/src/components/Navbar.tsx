@@ -1,28 +1,13 @@
 import React, { useState } from "react";
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC<{ onServicesClick: () => void }> = ({ onServicesClick }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const handleHomeClick = () => {
         if (window.location.pathname === "/") {
-            // Scroll to the top if already on the home page
             window.scrollTo({ top: 0, behavior: "smooth" });
         } else {
-            // Redirect to the home page
             window.location.href = "/";
-        }
-    };
-
-    const handleServicesClick = () => {
-        if (window.location.pathname === "/") {
-            // Scroll to the "Services" section if on the home page
-            const servicesSection = document.getElementById("services-section");
-            if (servicesSection) {
-                servicesSection.scrollIntoView({ behavior: "smooth" });
-            }
-        } else {
-            // Redirect to the home page and scroll to the "Services" section
-            window.location.href = "/#services-section";
         }
     };
 
@@ -39,7 +24,7 @@ const Navbar: React.FC = () => {
                     </li>
                     <li
                         className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer"
-                        onClick={handleServicesClick}
+                        onClick={onServicesClick}
                     >
                         SERVICES
                     </li>
@@ -85,7 +70,7 @@ const Navbar: React.FC = () => {
                     <li
                         className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer py-1 text-right"
                         onClick={() => {
-                            handleServicesClick();
+                            onServicesClick();
                             setIsMenuOpen(false);
                         }}
                     >
