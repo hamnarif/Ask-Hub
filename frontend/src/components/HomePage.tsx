@@ -141,6 +141,7 @@ const HomePage: React.FC = () => {
                 </div>
             </section>
 
+
             {/* About Section */}
             <motion.section
                 id="about-section"
@@ -162,6 +163,7 @@ const HomePage: React.FC = () => {
                     Experience smarter, faster, and safer ways to work with your data.
                 </p>
             </motion.section>
+
 
             {/* Services Section */}
             <motion.section
@@ -368,8 +370,6 @@ const HomePage: React.FC = () => {
             </motion.section >
 
 
-
-
             {/* Contact and Copyright Section */}
             < section
                 id="contact-section"
@@ -442,9 +442,6 @@ const HomePage: React.FC = () => {
                     </div >
                 </div >
             </section >
-
-
-
 
         </div >
     );
