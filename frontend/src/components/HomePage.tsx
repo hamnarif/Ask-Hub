@@ -209,82 +209,244 @@ const HomePage: React.FC = () => {
                 </div>
             </motion.section>
 
-<section
-    id="contact-section"
-    className="py-16 px-6 sm:px-24 text-[#f2e9da]"
->
-    {/* Contact Section */}
-    <div className="flex flex-col-reverse sm:flex-row w-full justify-between items-center sm:items-end space-y-6 sm:space-y-0">
-        {/* Copyright */}
-        <div className="text-center sm:text-left my-8  text-sm sm:text-base text-stone-400">
-            <p>© Copyright ASH-HUB 2024. All rights reserved.</p>
-        </div>
 
-        {/* Contact Information */}
-        <div className="flex flex-row items-center space-x-2">
-            {/* Vertical Contact Heading */}
-            <div className="flex-shrink-0">
-                <h2
-                    className="text-3xl sm:text-4xl font-bold tracking-tighter text-[#bd976d]"
-                    style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
-                >
-                    CONTACT
-                </h2>
-            </div>
+            {/* Form Section */}
+            <motion.section
+                id="form-section"
+                className="py-12 px-4 sm:px-8 lg:px-12"
+                initial="hidden"
+                animate="visible"
+                variants={sectionVariants}
+            >
 
-            {/* Contact Details */}
-            <div className="flex flex-col space-y-8 text-center sm:text-left">
-                <div>
-                    <p className="text-lg sm:text-xl">+92 333 8933350</p>
+                <div className="flex justify-center">
+                    <div className="w-full max-w-xl p-8 rounded-lg shadow-lg bg-[#292524] border border-[rgba(255,255,255,0.2)]">
+                        <h2 className="text-2xl md:text-3xl font-bold text-center tracking-wider mb-10 text-[#bd976d]">
+                            Get in Touch with Us!
+                        </h2>
+
+
+                        <form className="max-w-md mx-auto">
+
+
+                            <style>
+                                {`
+                                input:-webkit-autofill,
+                                input:-webkit-autofill:hover,
+                                input:-webkit-autofill:focus,
+                                textarea:-webkit-autofill,
+                                textarea:-webkit-autofill:hover,
+                                textarea:-webkit-autofill:focus {
+                                    -webkit-box-shadow: 0 0 0px 1000px #1f1b16 inset !important;
+                                    box-shadow: 0 0 0px 1000px #1f1b16 inset !important;
+                                    -webkit-text-fill-color: #f2e9da !important;
+                                }
+
+                                input:-webkit-autofill + label,
+                                textarea:-webkit-autofill + label {
+                                    color: #f2e9da !important;
+                                    top: 0.5rem !important; /* Adjusted to align with input text */
+                                    transform: scale(0.85) !important; /* Slightly smaller to fit above the text */
+                                }
+
+                                .peer-placeholder-shown {
+                                    margin-top: 0; /* Prevents excessive margin */
+                                }
+
+                                .peer-focus + label {
+                                    margin-top: 0; /* Keeps the label aligned during focus */
+                                    top: -0.5rem !important; /* Ensures alignment in focus state */
+                                }
+                            `}
+                            </style>
+
+
+
+                            <div className="relative z-0 w-full mb-5 group">
+                                <input
+                                    type="message"
+                                    name="message"
+                                    id="message"
+                                    className="block py-2.5 px-0 w-full text-sm text-[#f2e9da] bg-transparent border-0 border-b-2 border-[#3a312a] appearance-none focus:outline-none focus:ring-0 focus:border-[#bd976d] peer"
+                                    placeholder=" "
+                                    required
+                                />
+                                <label
+                                    htmlFor="message"
+                                    className="peer-focus:font-medium absolute text-sm text-stone-500 dark:text-stone-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6"
+                                >
+                                    Your Message
+                                </label>
+                            </div>
+
+                            <div className="grid md:grid-cols-2 md:gap-6">
+                                <div className="relative z-0 w-full mb-5 group">
+                                    <input
+                                        type="text"
+                                        name="floating_first_name"
+                                        id="floating_first_name"
+                                        className="block py-2.5 px-0 w-full text-sm text-[#f2e9da] bg-transparent border-0 border-b-2 border-[#3a312a] appearance-none focus:outline-none focus:ring-0 focus:border-[#bd976d] peer"
+                                        placeholder=" "
+                                        required
+                                    />
+                                    <label
+                                        htmlFor="floating_first_name"
+                                        className="peer-focus:font-medium absolute text-sm text-stone-500 dark:text-stone-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6"
+                                    >
+                                        First name
+                                    </label>
+                                </div>
+
+                                <div className="relative z-0 w-full mb-5 group">
+                                    <input
+                                        type="text"
+                                        name="floating_last_name"
+                                        id="floating_last_name"
+                                        className="block py-2.5 px-0 w-full text-sm text-[#f2e9da] bg-transparent border-0 border-b-2 border-[#3a312a] appearance-none focus:outline-none focus:ring-0 focus:border-[#bd976d] peer"
+                                        placeholder=" "
+                                        required
+                                    />
+                                    <label
+                                        htmlFor="floating_last_name"
+                                        className="peer-focus:font-medium absolute text-sm text-stone-500 dark:text-stone-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6"
+                                    >
+                                        Last name
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div className="grid md:grid-cols-2 md:gap-6">
+                                <div className="relative z-0 w-full mb-5 group">
+                                    <input
+                                        type="tel"
+                                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                                        name="floating_phone"
+                                        id="floating_phone"
+                                        className="block py-2.5 px-0 w-full text-sm text-[#f2e9da] bg-transparent border-0 border-b-2 border-[#3a312a] appearance-none focus:outline-none focus:ring-0 focus:border-[#bd976d] peer"
+                                        placeholder=" "
+                                        required
+                                    />
+                                    <label
+                                        htmlFor="floating_phone"
+                                        className="peer-focus:font-medium absolute text-sm text-stone-500 dark:text-stone-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6"
+                                    >
+                                        Phone number (123-456-7890)
+                                    </label>
+                                </div>
+
+                                <div className="relative z-0 w-full mb-5 group">
+                                    <input
+                                        type="text"
+                                        name="floating_company"
+                                        id="floating_company"
+                                        className="block py-2.5 px-0 w-full text-sm text-[#f2e9da] bg-transparent border-0 border-b-2 border-[#3a312a] appearance-none focus:outline-none focus:ring-0 focus:border-[#bd976d] peer"
+                                        placeholder=" "
+                                        required
+                                    />
+                                    <label
+                                        htmlFor="floating_company"
+                                        className="peer-focus:font-medium absolute text-sm text-stone-500 dark:text-stone-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6"
+                                    >
+                                        Company (Ex. Google)
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button
+                                type="submit"
+                                className="relative w-full bg-[#bd976d] text-stone-50 py-2 px-6 text-sm md:text-base shadow-md overflow-hidden group focus:outline-none transition-all duration-300 "
+                            >
+                                <span className="absolute inset-0 bg-gradient-to-r from-[#a87f58] to-[#292524] translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300 ease-in-out"></span>
+                                <span className="relative tracking-wider">Send Message</span>
+                            </button>
+                        </form>
+
+
+
+                    </div>
                 </div>
-                <div>
-                    <p className="text-lg sm:text-xl">hamna568@gmail.com</p>
-                </div>
-                <div className="flex justify-center sm:justify-start space-x-4 text-lg sm:text-xl">
-                    <a
-                        href="https://www.linkedin.com/in/hamna-arif-723520290/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="transition duration-300 bg-[#f2e9da]"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            x="0px"
-                            y="0px"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                        >
-                            <path d="M3,3v18h18V3H3z M9,17H6.5v-7H9V17z M7.7,8.7c-0.8,0-1.3-0.5-1.3-1.2c0-0.7,0.5-1.2,1.4-1.2c0.8,0,1.3,0.5,1.3,1.2 C9.1,8.2,8.6,8.7,7.7,8.7z M18,17h-2.4v-3.8c0-1.1-0.7-1.3-0.9-1.3c-0.2,0-1.1,0.2-1.1,1.3c0,0.2,0,3.8,0,3.8h-2.5v-7h2.5v1 c0.3-0.6,1-1,2.2-1s2.2,1,2.2,3.2V17z"></path>
-                        </svg>
-                    </a>
-                    <a
-                        href="https://github.com/hamnarif"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="transition duration-300 bg-[#f2e9da]"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            x="0px"
-                            y="0px"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                        >
-                            <path d="M10.9,2.1c-4.6,0.5-8.3,4.2-8.8,8.7c-0.5,4.7,2.2,8.9,6.3,10.5C8.7,21.4,9,21.2,9,20.8v-1.6c0,0-0.4,0.1-0.9,0.1 c-1.4,0-2-1.2-2.1-1.9c-0.1-0.4-0.3-0.7-0.6-1C5.1,16.3,5,16.3,5,16.2C5,16,5.3,16,5.4,16c0.6,0,1.1,0.7,1.3,1c0.5,0.8,1.1,1,1.4,1 c0.4,0,0.7-0.1,0.9-0.2c0.1-0.7,0.4-1.4,1-1.8c-2.3-0.5-4-1.8-4-4c0-1.1,0.5-2.2,1.2-3C7.1,8.8,7,8.3,7,7.6C7,7.2,7,6.6,7.3,6 c0,0,1.4,0,2.8,1.3C10.6,7.1,11.3,7,12,7s1.4,0.1,2,0.3C15.3,6,16.8,6,16.8,6C17,6.6,17,7.2,17,7.6c0,0.8-0.1,1.2-0.2,1.4 c0.7,0.8,1.2,1.8,1.2,3c0,2.2-1.7,3.5-4,4c0.6,0.5,1,1.4,1,2.3v2.6c0,0.3,0.3,0.6,0.7,0.5c3.7-1.5,6.3-5.1,6.3-9.3 C22,6.1,16.9,1.4,10.9,2.1z"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+            </motion.section >
 
 
 
 
-        </div>
+            {/* Contact and Copyright Section */}
+            < section
+                id="contact-section"
+                className="py-16 px-6 sm:px-24 text-[#f2e9da]"
+            >
+                {/* Contact Section */}
+                < div className="flex flex-col-reverse sm:flex-row w-full justify-between items-center sm:items-end space-y-6 sm:space-y-0" >
+                    {/* Copyright */}
+                    < div className="text-center sm:text-left my-8  text-sm sm:text-base text-stone-400" >
+                        <p>© Copyright ASH-HUB 2024. All rights reserved.</p>
+                    </div >
+
+                    {/* Contact Information */}
+                    < div className="flex flex-row items-center space-x-2" >
+                        {/* Vertical Contact Heading */}
+                        < div className="flex-shrink-0" >
+                            <h2
+                                className="text-3xl sm:text-4xl font-bold tracking-tighter text-[#bd976d]"
+                                style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+                            >
+                                CONTACT
+                            </h2>
+                        </div >
+
+                        {/* Contact Details */}
+                        < div className="flex flex-col space-y-8 text-center sm:text-left" >
+                            <div>
+                                <p className="text-lg sm:text-xl">+92 333 8933350</p>
+                            </div>
+                            <div>
+                                <p className="text-lg sm:text-xl">hamna568@gmail.com</p>
+                            </div>
+                            <div className="flex justify-center sm:justify-start space-x-4 text-lg sm:text-xl">
+                                <a
+                                    href="https://www.linkedin.com/in/hamna-arif-723520290/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="transition duration-300 bg-[#f2e9da]"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        x="0px"
+                                        y="0px"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path d="M3,3v18h18V3H3z M9,17H6.5v-7H9V17z M7.7,8.7c-0.8,0-1.3-0.5-1.3-1.2c0-0.7,0.5-1.2,1.4-1.2c0.8,0,1.3,0.5,1.3,1.2 C9.1,8.2,8.6,8.7,7.7,8.7z M18,17h-2.4v-3.8c0-1.1-0.7-1.3-0.9-1.3c-0.2,0-1.1,0.2-1.1,1.3c0,0.2,0,3.8,0,3.8h-2.5v-7h2.5v1 c0.3-0.6,1-1,2.2-1s2.2,1,2.2,3.2V17z"></path>
+                                    </svg>
+                                </a>
+                                <a
+                                    href="https://github.com/hamnarif"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="transition duration-300 bg-[#f2e9da]"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        x="0px"
+                                        y="0px"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path d="M10.9,2.1c-4.6,0.5-8.3,4.2-8.8,8.7c-0.5,4.7,2.2,8.9,6.3,10.5C8.7,21.4,9,21.2,9,20.8v-1.6c0,0-0.4,0.1-0.9,0.1 c-1.4,0-2-1.2-2.1-1.9c-0.1-0.4-0.3-0.7-0.6-1C5.1,16.3,5,16.3,5,16.2C5,16,5.3,16,5.4,16c0.6,0,1.1,0.7,1.3,1c0.5,0.8,1.1,1,1.4,1 c0.4,0,0.7-0.1,0.9-0.2c0.1-0.7,0.4-1.4,1-1.8c-2.3-0.5-4-1.8-4-4c0-1.1,0.5-2.2,1.2-3C7.1,8.8,7,8.3,7,7.6C7,7.2,7,6.6,7.3,6 c0,0,1.4,0,2.8,1.3C10.6,7.1,11.3,7,12,7s1.4,0.1,2,0.3C15.3,6,16.8,6,16.8,6C17,6.6,17,7.2,17,7.6c0,0.8-0.1,1.2-0.2,1.4 c0.7,0.8,1.2,1.8,1.2,3c0,2.2-1.7,3.5-4,4c0.6,0.5,1,1.4,1,2.3v2.6c0,0.3,0.3,0.6,0.7,0.5c3.7-1.5,6.3-5.1,6.3-9.3 C22,6.1,16.9,1.4,10.9,2.1z"></path>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div >
+                    </div >
+                </div >
+            </section >
+
+
+
+
+        </div >
     );
 };
 

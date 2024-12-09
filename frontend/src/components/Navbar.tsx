@@ -79,7 +79,7 @@ const Navbar: React.FC<{
 
             {/* Mobile Dropdown Menu */}
             <div
-                className={`absolute top-16 right-4 z-10 sm:hidden transform transition-all duration-500 font-light text-sm tracking-wider ease-in-out ${
+                className={`absolute top-16 right-4 z-10 sm:hidden transform text-[#f2e9da] transition-all duration-500 font-light text-sm tracking-wider ease-in-out ${
                     isMenuOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
                 }`}
             >
