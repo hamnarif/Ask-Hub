@@ -163,7 +163,7 @@ const HomePage: React.FC = () => {
                                 {service.title}
                             </h3>
                             {/* Description */}
-                            <p className="opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out text-stone-50 text-sm mt-2">
+                            <p className="opacity-0 group-hover:opacity-100 transition-all duration-500 ease-in-out text-stone-50 text-base mt-2">
                                 {service.description}
                             </p>
                         </div>
