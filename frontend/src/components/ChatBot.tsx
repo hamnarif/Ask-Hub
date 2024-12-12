@@ -79,8 +79,8 @@ const ChatBot = () => {
                 onAboutClick={handleAboutClick}
                 onContactClick={handleContactClick}
             />
-            {/* New Chat Icon */}
-            <div className="absolute top-20 left-8 cursor-pointer flex items-center space-x-2 z-10" onClick={handleNewChat}>
+            {/* Desktop New Chat Icon */}
+            <div className="absolute top-20 left-8 cursor-pointer hidden md:flex items-center space-x-2 z-10" onClick={handleNewChat}>
                 <img
                     src={pencilChatIcon}
                     alt="New Chat"
@@ -89,9 +89,21 @@ const ChatBot = () => {
                 <span className="text-stone-200 text-sm">New Chat</span>
             </div>
 
-            <div className="flex-1 flex items-center justify-center px-8 relative">
+            {/* Mobile New Chat Icon */}
+            <div 
+                className="fixed top-20 left-4 md:hidden z-20 bg-gradient-to-r from-[#a87f58] to-[#292524] p-3 rounded-full shadow-lg cursor-pointer hover:brightness-110 transition-all duration-200" 
+                onClick={handleNewChat}
+            >
+                <img
+                    src={pencilChatIcon}
+                    alt="New Chat"
+                    className="w-6 h-6 brightness-200"
+                />
+            </div>
+
+            <div className="flex-1 flex items-center justify-center px-4 sm:px-6 md:px-8 relative">
                 {/* Chat Component */}
-                <div className="bg-stone-950 text-center rounded-xl shadow-lg p-6 w-8/12 h-[85vh] flex flex-col">
+                <div className="bg-stone-950 text-center rounded-xl shadow-lg p-4 sm:p-6 w-full md:w-10/12 lg:w-8/12 h-[85vh] flex flex-col">
                     {/* Chats Component */}
                     <div className="flex-1 overflow-hidden">
                         <Chats messages={messages} />
@@ -99,16 +111,17 @@ const ChatBot = () => {
 
                     {/* Input Area */}
                     <div className="w-full relative mt-4 flex-shrink-0">
-                        <div className="absolute top-1/2 left-4 transform -translate-y-1/2 text-stone-200">
-                            {!isFileSent && ( // Disable file upload if the file is sent
-                                <label htmlFor="file-upload" className="cursor-pointer">
+                        {/* File Upload Icon */}
+                        <div className="absolute top-1/2 left-3 transform -translate-y-1/2 text-stone-200 z-10">
+                            {!isFileSent && (
+                                <label htmlFor="file-upload" className="cursor-pointer p-2">
                                     <svg
                                         width="800px"
                                         height="800px"
                                         viewBox="0 0 16 16"
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
-                                        className="w-5 h-5 fill-white"
+                                        className="w-4 sm:w-5 h-4 sm:h-5 fill-white"
                                     >
                                         <path
                                             fill="#FFFFFF"
@@ -127,12 +140,14 @@ const ChatBot = () => {
                         </div>
 
                         <div
-                            className={`w-full bg-gradient-to-r from-[#a87f58] to-[#292524] p-4 text-stone-50 placeholder:text-stone-200 rounded-full pl-10 outline-none flex flex-col ${uploadedFile ? "h-32" : "h-20"
-                                }`}
+                            className={`w-full bg-gradient-to-r from-[#a87f58] to-[#292524] p-3 sm:p-4 text-stone-50 placeholder:text-stone-200 rounded-full pl-14 pr-12 outline-none flex flex-col ${
+                                uploadedFile ? "h-24 sm:h-32" : "h-16 sm:h-20"
+                            }`}
+                            style={{ paddingLeft: "4rem" }} // Adjust padding to fix overlapping
                         >
                             {uploadedFile && (
                                 <div className="flex items-center space-x-2 mb-2">
-                                    <div className="bg-red-700 p-2 rounded-full">
+                                    <div className="bg-red-700 p-1.5 sm:p-2 rounded-full">
                                         {isUploading ? (
                                             <svg
                                                 className="animate-spin h-6 w-6 text-white"
@@ -164,7 +179,7 @@ const ChatBot = () => {
                                             </svg>
                                         )}
                                     </div>
-                                    <span className="text-sm font-medium">{uploadedFile}</span>
+                                    <span className="text-xs sm:text-sm font-medium truncate">{uploadedFile}</span>
                                     <button
                                         onClick={handleRemoveFile}
                                         className="text-white hover:text-red-600 text-xs p-1"
@@ -174,46 +189,35 @@ const ChatBot = () => {
                                 </div>
                             )}
 
-
                             <textarea
-                                className="bg-transparent outline-none w-full text-stone-100 mt-2 mx-4 placeholder:text-stone-200 resize-none overflow-hidden"
+                                className="bg-transparent outline-none w-full text-sm sm:text-base text-stone-100 placeholder:text-stone-200 resize-none overflow-hidden"
                                 placeholder="Ask Hub"
-                                disabled={!uploadedFile && !isFileSent} // Disable if no file is selected or sent
+                                disabled={!uploadedFile && !isFileSent}
                                 value={inputValue}
-                                onChange={(e) => setInputValue(e.target.value)} // Update inputValue on change
+                                onChange={(e) => setInputValue(e.target.value)}
                                 onKeyDown={(e) => {
                                     if (e.key === "Enter" && e.shiftKey) {
-                                        // Allow Shift + Enter to insert a new line
                                         e.preventDefault();
                                         setInputValue((prev) => prev + "\n");
                                     } else if (e.key === "Enter") {
-                                        // Send the message on Enter without Shift
                                         e.preventDefault();
                                         handleSendMessage();
                                     }
                                 }}
-                                rows={uploadedFile ? 4 : 2} // Dynamically set rows based on context
+                                rows={uploadedFile ? 2 : 1}
                             />
-
                         </div>
 
-                        <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
-                            <button onClick={handleSendMessage}>
+                        {/* Send Button */}
+                        <div className="absolute top-1/2 right-3 transform -translate-y-1/2">
+                            <button onClick={handleSendMessage} className="p-2">
                                 <svg
                                     version="1.1"
-                                    id="Layer_1"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    xmlnsXlink="http://www.w3.org/1999/xlink"
-                                    x="0px"
-                                    y="0px"
                                     viewBox="0 0 122.88 122.88"
-                                    xmlSpace="preserve"
-                                    className="w-5 h-5 fill-current text-stone-200  transition duration-300 ease-in-out hover:brightness-200 hover:drop-shadow-glow"
+                                    className="w-4 sm:w-5 h-4 sm:h-5 fill-current text-stone-200 transition duration-300 ease-in-out hover:brightness-200 hover:drop-shadow-glow"
                                 >
-                                    <polygon
-                                        className="st0"
-                                        points="122.88,0 81.35,122.88 62.34,60.54 0,41.53 122.88,0"
-                                    />
+                                    <polygon points="122.88,0 81.35,122.88 62.34,60.54 0,41.53 122.88,0" />
                                 </svg>
                             </button>
                         </div>
