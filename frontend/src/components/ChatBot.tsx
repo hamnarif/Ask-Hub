@@ -51,7 +51,7 @@ const ChatBot = () => {
                 onContactClick={handleContactClick}
             />
 
-            <div className="flex-1 flex items-center justify-center">
+            <div className="flex-1 flex my-8 items-center justify-center">
                 <div className="bg-stone-950 text-center rounded-xl shadow-lg p-6 w-8/12 h-5/6 flex flex-col justify-between">
                     <div className="flex-grow flex items-center justify-center">
                         {loading ? (
