@@ -3,12 +3,13 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import backgroundImage from "../assets/web2gold.png";
 import Navbar from "./Navbar";
-
+import { useNavigate } from "react-router-dom";
 const HomePage: React.FC = () => {
     const [servicesRef, servicesInView] = useInView({
         triggerOnce: false,
         threshold: 0.2,
     });
+    const navigate = useNavigate(); // Initialize navigate
 
     const [aboutRef, aboutInView] = useInView({
         triggerOnce: false,
@@ -24,6 +25,10 @@ const HomePage: React.FC = () => {
             y: 0,
             transition: { delay, duration: 0.8 },
         }),
+    };
+
+    const handleFreeTrialClick = () => {
+        navigate("/chatbot"); // Navigate to the ChatBotPage
     };
 
     const sectionVariants = {
@@ -124,7 +129,10 @@ const HomePage: React.FC = () => {
                     </div>
 
                     {/* Button */}
-                    <div className="flex w-full justify-center md:w-auto mt-6">
+                    <div
+                        onClick={handleFreeTrialClick}
+
+                        className="flex w-full justify-center md:w-auto mt-6">
                         <motion.div
                             className="flex flex-col gap-4 items-center md:justify-end"
                             initial="hidden"
@@ -132,7 +140,7 @@ const HomePage: React.FC = () => {
                             custom={0.8}
                             variants={textVariants}
                         >
-                            <button className="bg-[#bd976d] text-white py-2 px-6 my-4 rounded-lg text-sm md:text-base relative overflow-hidden group">
+                            <button className="bg-[#bd976d] text-stone-50 py-2 px-6 my-4  text-sm md:text-base relative overflow-hidden group">
                                 <span className="absolute inset-0 bg-gradient-to-r from-[#a87f58] to-[#292524] translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-300 ease-in-out"></span>
                                 <span className="tracking-wider relative">Free Trial</span>
                             </button>
