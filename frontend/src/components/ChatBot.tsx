@@ -5,27 +5,25 @@ import { useNavigate } from "react-router-dom";
 const ChatBot = () => {
     const [uploadedFile, setUploadedFile] = useState<string | null>(null);
     const [isUploading, setIsUploading] = useState(false);
-    const [loading, setLoading] = useState(false); // State to track navigation loading
+    const [loading] = useState(false); // State to track navigation loading
     const navigate = useNavigate();
 
     const scrollToSection = (section: string) => {
-        setLoading(true); // Start spinner
         navigate(`/#${section}`);
-
-        // Wait for the section to load and become visible
-        const checkExist = setInterval(() => {
+        const interval = setInterval(() => {
             const element = document.getElementById(section);
+            console.log(`Checking visibility for ${section}`, element);
             if (element) {
                 element.scrollIntoView({ behavior: "smooth" });
-                setLoading(false); // Stop spinner
-                clearInterval(checkExist);
+                clearInterval(interval);
             }
-        }, 100); // Check every 100ms
+        }, 100);
     };
-
+    
     const handleServicesClick = () => scrollToSection("services-section");
     const handleAboutClick = () => scrollToSection("about-section");
     const handleContactClick = () => scrollToSection("contact-section");
+    
 
     const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];

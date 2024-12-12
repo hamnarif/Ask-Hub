@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar: React.FC<{
     onServicesClick: () => void;
@@ -6,12 +7,13 @@ const Navbar: React.FC<{
     onContactClick: () => void;
 }> = ({ onServicesClick, onAboutClick, onContactClick }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleHomeClick = () => {
         if (window.location.pathname === "/") {
             window.scrollTo({ top: 0, behavior: "smooth" });
         } else {
-            window.location.href = "/";
+            navigate("/");
         }
     };
 
@@ -19,7 +21,13 @@ const Navbar: React.FC<{
         if (window.location.pathname === "/") {
             onAboutClick();
         } else {
-            window.location.href = "/#about-section";
+            navigate("/#about-section");
+            setTimeout(() => {
+                const element = document.getElementById("about-section");
+                if (element) {
+                    element.scrollIntoView({ behavior: "smooth" });
+                }
+            }, 100); // Delay to ensure DOM updates
         }
     };
 
@@ -27,7 +35,13 @@ const Navbar: React.FC<{
         if (window.location.pathname === "/") {
             onContactClick();
         } else {
-            window.location.href = "/#contact-section";
+            navigate("/#contact-section");
+            setTimeout(() => {
+                const element = document.getElementById("contact-section");
+                if (element) {
+                    element.scrollIntoView({ behavior: "smooth" });
+                }
+            }, 100); // Delay to ensure DOM updates
         }
     };
 
