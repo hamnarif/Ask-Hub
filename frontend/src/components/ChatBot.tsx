@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
-import Chats from "./Chats"; // Import Chats component
-import pencilChatIcon from "../assets/pencil-chat.svg"; // Import the SVG file
+import Chats from "./Chats"; 
+import pencilChatIcon from "../assets/pencil-chat.svg"; 
 
 const ChatBot = () => {
     const [uploadedFile, setUploadedFile] = useState<string | null>(null);
@@ -14,7 +14,7 @@ const ChatBot = () => {
     const [inputValue, setInputValue] = useState("");
 
     const handleNewChat = () => {
-        window.location.reload(); // Refreshes the page to start a new session
+        window.location.reload(); 
     };
 
     const scrollToSection = (section: string) => {
@@ -73,14 +73,14 @@ const ChatBot = () => {
     };
 
     return (
-        <div className="h-screen w-screen flex flex-col bg-stone-900">
+        <div className="h-screen w-screen flex flex-col bg-stone-900 overflow-hidden">
             <Navbar
                 onServicesClick={handleServicesClick}
                 onAboutClick={handleAboutClick}
                 onContactClick={handleContactClick}
             />
-            {/* New Chat Icon - Positioned Above the Chat Container */}
-            <div className="absolute top-20 left-8 cursor-pointer flex items-center space-x-2" onClick={handleNewChat}>
+            {/* New Chat Icon */}
+            <div className="absolute top-20 left-8 cursor-pointer flex items-center space-x-2 z-10" onClick={handleNewChat}>
                 <img
                     src={pencilChatIcon}
                     alt="New Chat"
@@ -89,14 +89,16 @@ const ChatBot = () => {
                 <span className="text-stone-200 text-sm">New Chat</span>
             </div>
 
-            <div className="flex-1 flex items-center my-8 justify-center px-8">
+            <div className="flex-1 flex items-center justify-center px-8 relative">
                 {/* Chat Component */}
-                <div className="bg-stone-950  text-center rounded-xl shadow-lg p-6 w-8/12 h-5/6 flex flex-col justify-between">
+                <div className="bg-stone-950 text-center rounded-xl shadow-lg p-6 w-8/12 h-[85vh] flex flex-col">
                     {/* Chats Component */}
-                    <Chats messages={messages} />
+                    <div className="flex-1 overflow-hidden">
+                        <Chats messages={messages} />
+                    </div>
 
-                    {/* File Upload and Input Area */}
-                    <div className="w-full relative mt-4">
+                    {/* Input Area */}
+                    <div className="w-full relative mt-4 flex-shrink-0">
                         <div className="absolute top-1/2 left-4 transform -translate-y-1/2 text-stone-200">
                             {!isFileSent && ( // Disable file upload if the file is sent
                                 <label htmlFor="file-upload" className="cursor-pointer">
@@ -173,28 +175,25 @@ const ChatBot = () => {
                             )}
 
 
-<textarea
-    className="bg-transparent outline-none w-full text-stone-100 mt-2 mx-4 placeholder:text-stone-200 resize-none overflow-hidden"
-    placeholder="Ask Hub"
-    disabled={!uploadedFile && !isFileSent} // Disable if no file is selected or sent
-    value={inputValue}
-    onChange={(e) => setInputValue(e.target.value)} // Update inputValue on change
-    onKeyDown={(e) => {
-        if (e.key === "Enter" && e.shiftKey) {
-            // Allow Shift + Enter to insert a new line
-            e.preventDefault();
-            setInputValue((prev) => prev + "\n");
-        } else if (e.key === "Enter") {
-            // Send the message on Enter without Shift
-            e.preventDefault();
-            handleSendMessage();
-        }
-    }}
-    rows={uploadedFile ? 4 : 2} // Dynamically set rows based on context
-/>
-
-
-
+                            <textarea
+                                className="bg-transparent outline-none w-full text-stone-100 mt-2 mx-4 placeholder:text-stone-200 resize-none overflow-hidden"
+                                placeholder="Ask Hub"
+                                disabled={!uploadedFile && !isFileSent} // Disable if no file is selected or sent
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)} // Update inputValue on change
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" && e.shiftKey) {
+                                        // Allow Shift + Enter to insert a new line
+                                        e.preventDefault();
+                                        setInputValue((prev) => prev + "\n");
+                                    } else if (e.key === "Enter") {
+                                        // Send the message on Enter without Shift
+                                        e.preventDefault();
+                                        handleSendMessage();
+                                    }
+                                }}
+                                rows={uploadedFile ? 4 : 2} // Dynamically set rows based on context
+                            />
 
                         </div>
 
