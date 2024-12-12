@@ -1,12 +1,15 @@
 import { useState } from "react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
+import Chats from "./Chats"; // Import the new Chats component
 
 const ChatBot = () => {
     const [uploadedFile, setUploadedFile] = useState<string | null>(null);
     const [isUploading, setIsUploading] = useState(false);
-    const [loading] = useState(false); // State to track navigation loading
     const navigate = useNavigate();
+
+    const [messages, setMessages] = useState<{ user: string; bot: string }[]>([]);
+    const [inputValue, setInputValue] = useState("");
 
     const scrollToSection = (section: string) => {
         navigate(`/#${section}`);
@@ -19,11 +22,10 @@ const ChatBot = () => {
             }
         }, 100);
     };
-    
+
     const handleServicesClick = () => scrollToSection("services-section");
     const handleAboutClick = () => scrollToSection("about-section");
     const handleContactClick = () => scrollToSection("contact-section");
-    
 
     const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -42,51 +44,29 @@ const ChatBot = () => {
         (document.getElementById("file-upload") as HTMLInputElement).value = "";
     };
 
+    const handleSendMessage = () => {
+        if (inputValue.trim() === "") return;
+
+        setMessages((prev) => [
+            ...prev,
+            { user: inputValue, bot: "Backend not connected" },
+        ]);
+        setInputValue("");
+    };
+
     return (
         <div className="h-screen w-screen flex flex-col bg-stone-900">
-            {/* Navbar with navigation handlers */}
             <Navbar
                 onServicesClick={handleServicesClick}
                 onAboutClick={handleAboutClick}
                 onContactClick={handleContactClick}
             />
-
             <div className="flex-1 flex my-8 items-center justify-center">
                 <div className="bg-stone-950 text-center rounded-xl shadow-lg p-6 w-8/12 h-5/6 flex flex-col justify-between">
-                    <div className="flex-grow flex items-center justify-center">
-                        {loading ? (
-                            <div className="flex items-center space-x-4">
-                                <svg
-                                    className="animate-spin h-10 w-10 text-[#bd976d]"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <circle
-                                        className="opacity-25"
-                                        cx="12"
-                                        cy="12"
-                                        r="10"
-                                        stroke="currentColor"
-                                        strokeWidth="4"
-                                    ></circle>
-                                    <path
-                                        className="opacity-75"
-                                        fill="currentColor"
-                                        d="M4 12a8 8 0 018-8V0C3.58 0 0 8 0 8h4z"
-                                    ></path>
-                                </svg>
-                                <span className="text-[#bd976d] text-xl font-medium">
-                                    Loading...
-                                </span>
-                            </div>
-                        ) : (
-                            <p className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-stone-600 to-[#bd976d] font-bold text-center">
-                                Hello, Upload your PDF to chat
-                            </p>
-                        )}
-                    </div>
+                    {/* Chats Component */}
+                    <Chats messages={messages} />
 
+                    {/* File Upload and Input Area */}
                     <div className="w-full relative mt-4">
                         <div className="absolute top-1/2 left-4 transform -translate-y-1/2 text-stone-200">
                             <label htmlFor="file-upload" className="cursor-pointer">
@@ -114,7 +94,9 @@ const ChatBot = () => {
                         </div>
 
                         <div
-                            className={`w-full bg-gradient-to-r from-[#a87f58] to-[#292524] p-4 text-stone-50 placeholder:text-stone-200 rounded-full pl-10 outline-none focus:ring-2 focus:ring-transparent flex flex-col ${uploadedFile ? "h-32" : "h-20"}`}
+                            className={`w-full bg-gradient-to-r from-[#a87f58] to-[#292524] p-4 text-stone-50 placeholder:text-stone-200 rounded-full pl-10 outline-none flex flex-col ${
+                                uploadedFile ? "h-32" : "h-20"
+                            }`}
                         >
                             {uploadedFile && (
                                 <div className="flex items-center space-x-2 mb-2">
@@ -153,7 +135,7 @@ const ChatBot = () => {
                                     <span className="text-sm font-medium">{uploadedFile}</span>
                                     <button
                                         onClick={handleRemoveFile}
-                                        className=" text-white hover:text-red-600 text-xs  p-1"
+                                        className="text-white hover:text-red-600 text-xs p-1"
                                     >
                                         ✕
                                     </button>
@@ -164,31 +146,38 @@ const ChatBot = () => {
                                 className="bg-transparent outline-none w-full text-stone-50 mt-2 mx-4 placeholder:text-stone-200"
                                 placeholder="Ask Hub"
                                 disabled={!uploadedFile || isUploading}
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") handleSendMessage();
+                                }}
                             />
                         </div>
 
                         <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
-                            <svg
-                                version="1.1"
-                                id="Layer_1"
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlnsXlink="http://www.w3.org/1999/xlink"
-                                x="0px"
-                                y="0px"
-                                viewBox="0 0 122.88 122.88"
-                                xmlSpace="preserve"
-                                className="w-5 h-5 fill-current text-stone-200  transition duration-300 ease-in-out hover:brightness-200 hover:drop-shadow-glow"
-                            >
-                                <style type="text/css">
-                                    {".st0{fill-rule:evenodd;clip-rule:evenodd;}"}
-                                </style>
-                                <g>
-                                    <polygon
-                                        className="st0"
-                                        points="122.88,0 81.35,122.88 62.34,60.54 0,41.53 122.88,0"
-                                    />
-                                </g>
-                            </svg>
+                            <button onClick={handleSendMessage}>
+                                <svg
+                                    version="1.1"
+                                    id="Layer_1"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                                    x="0px"
+                                    y="0px"
+                                    viewBox="0 0 122.88 122.88"
+                                    xmlSpace="preserve"
+                                    className="w-5 h-5 fill-current text-stone-200  transition duration-300 ease-in-out hover:brightness-200 hover:drop-shadow-glow"
+                                >
+                                    <style type="text/css">
+                                        {".st0{fill-rule:evenodd;clip-rule:evenodd;}"}
+                                    </style>
+                                    <g>
+                                        <polygon
+                                            className="st0"
+                                            points="122.88,0 81.35,122.88 62.34,60.54 0,41.53 122.88,0"
+                                        />
+                                    </g>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
