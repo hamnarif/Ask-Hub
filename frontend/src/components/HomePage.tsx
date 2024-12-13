@@ -10,6 +10,7 @@ const HomePage: React.FC = () => {
         threshold: 0.2,
     });
     const navigate = useNavigate(); // Initialize navigate
+    const [toastVisible, setToastVisible] = useState(false);
 
     const [aboutRef, aboutInView] = useInView({
         triggerOnce: false,
@@ -60,6 +61,13 @@ const HomePage: React.FC = () => {
             window.location.href = "/#contact-section";
         }
     };
+
+    const handleFormSubmit = (event: React.FormEvent) => {
+        event.preventDefault(); // Prevent default form submission
+        setToastVisible(true); // Show toast
+        setTimeout(() => setToastVisible(false), 3000); // Hide toast after 3 seconds
+    };
+
 
     return (
         <div className="bg-stone-900 overflow-hidden">
@@ -228,6 +236,17 @@ const HomePage: React.FC = () => {
                 animate="visible"
                 variants={sectionVariants}
             >
+                {toastVisible && (
+                    <div
+                        className="fixed top-20 left-4 bg-[#292524] text-[#f2e9da] border border-[#bd976d] rounded-md px-6 py-3 shadow-lg z-50"
+                        style={{
+                            textShadow: "1px 1px 2px rgba(0, 0, 0, 0.6)",
+                            maxWidth: "80%", // Adjust width for responsiveness
+                        }}
+                    >
+                        Your message    has been sent successfully!
+                    </div>
+                )}
 
                 <div className="flex justify-center">
                     <div className="w-full max-w-3xl  p-8  shadow-lg bg-[#292524] border border-[rgba(255,255,255,0.2)]">
@@ -236,7 +255,8 @@ const HomePage: React.FC = () => {
                         </h2>
 
 
-                        <form className="max-w-md mx-auto">
+                        <form className="max-w-md mx-auto" onSubmit={handleFormSubmit}>
+
 
 
                             <style>
@@ -329,7 +349,6 @@ const HomePage: React.FC = () => {
                                 <div className="relative z-0 w-full mb-5 group">
                                     <input
                                         type="tel"
-                                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                                         name="floating_phone"
                                         id="floating_phone"
                                         className="block py-2.5 px-0 w-full text-sm text-[#f2e9da] bg-transparent border-0 border-b-2 border-[#3a312a] appearance-none focus:outline-none focus:ring-0 focus:border-[#bd976d] peer"
@@ -340,8 +359,9 @@ const HomePage: React.FC = () => {
                                         htmlFor="floating_phone"
                                         className="peer-focus:font-medium absolute text-sm text-stone-500 dark:text-stone-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:scale-75 peer-focus:-translate-y-6"
                                     >
-                                        Phone number (123-456-7890)
+                                        Phone number
                                     </label>
+
                                 </div>
 
                                 <div className="relative z-0 w-full mb-5 group">

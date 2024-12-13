@@ -97,7 +97,7 @@ const Navbar: React.FC<{
                     isMenuOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
                 }`}
             >
-                <ul className="flex flex-col items-end bg-stone-900 bg-opacity-80 backdrop-blur-md border border-[#bd976d] px-4 py-2 rounded-lg shadow-lg">
+                <ul className="flex flex-col items-end bg-stone-900 bg-opacity-80 backdrop-blur-md border border-[#bd976d] px-4 py-2 rounded-lg shadow-lg space-y-10">
                     <li
                         className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer py-1 text-right"
                         onClick={() => {
