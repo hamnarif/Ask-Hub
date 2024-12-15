@@ -30,7 +30,7 @@ const App: React.FC = () => {
   }, [count]);
 
   return (
-    <div className="min-h-screen bg-stone-900 main-container">
+    <div className="min-h-screen bg-stone-900">
       {/* Loading Spinner */}
       <AnimatePresence>
         {loading && (
