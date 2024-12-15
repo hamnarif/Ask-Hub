@@ -56,7 +56,7 @@ const ChatBot = () => {
                 });
 
                 if (response.ok) {
-                    const result = await response.json();
+                    // const result = await response.json();
                     setIsFileSent(true);
                 } else {
                     const error = await response.json();
@@ -137,7 +137,11 @@ const ChatBot = () => {
                 <div className="bg-stone-950 text-center rounded-xl shadow-lg p-4 sm:p-6 w-full md:w-10/12 lg:w-8/12 h-[85vh] flex flex-col">
                     {/* Chats Component */}
                     <div className="flex-1 overflow-hidden">
-                        <Chats messages={messages} />
+                        <Chats
+                            messages={messages}
+                            isProcessing={isProcessing}
+                            isFileSent={isFileSent}
+                        />
                     </div>
 
                     {/* Input Area */}
@@ -145,8 +149,8 @@ const ChatBot = () => {
                         {/* File Upload Icon */}
                         <div className="absolute top-1/2 left-3 transform -translate-y-1/2 text-stone-200 z-10">
                             {!isFileSent && (
-                                <label 
-                                    htmlFor="file-upload" 
+                                <label
+                                    htmlFor="file-upload"
                                     className={`cursor-pointer p-2 ${(isUploading || isProcessing) ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >
                                     <svg
@@ -175,9 +179,8 @@ const ChatBot = () => {
                         </div>
 
                         <div
-                            className={`w-full bg-gradient-to-r from-[#a87f58] to-[#292524] p-3 sm:p-4 text-stone-50 placeholder:text-stone-200 rounded-full pl-14 pr-12 outline-none flex flex-col ${
-                                uploadedFile ? "h-24 sm:h-32" : "h-16 sm:h-20"
-                            }`}
+                            className={`w-full bg-gradient-to-r from-[#a87f58] to-[#292524] p-3 sm:p-4 text-stone-50 placeholder:text-stone-200 rounded-full pl-14 pr-12 outline-none flex flex-col ${uploadedFile ? "h-24 sm:h-32" : "h-16 sm:h-20"
+                                }`}
                             style={{ paddingLeft: "4rem" }} // Adjust padding to fix overlapping
                         >
                             {uploadedFile && (
@@ -253,11 +256,10 @@ const ChatBot = () => {
                                     version="1.1"
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 122.88 122.88"
-                                    className={`w-4 sm:w-5 h-4 sm:h-5 fill-current text-stone-200 transition duration-300 ease-in-out ${
-                                        isUploading || isProcessing || inputValue.trim() === ""
+                                    className={`w-4 sm:w-5 h-4 sm:h-5 fill-current text-stone-200 transition duration-300 ease-in-out ${isUploading || isProcessing || inputValue.trim() === ""
                                             ? "opacity-50 cursor-not-allowed"
                                             : "hover:brightness-200 hover:drop-shadow-glow"
-                                    }`}
+                                        }`}
                                 >
                                     <polygon points="122.88,0 81.35,122.88 62.34,60.54 0,41.53 122.88,0" />
                                 </svg>

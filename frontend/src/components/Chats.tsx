@@ -2,9 +2,11 @@ import React, { useEffect, useRef } from "react";
 
 interface ChatsProps {
     messages: { user?: string; bot?: string; file?: string }[];
+    isProcessing?: boolean;
+    isFileSent?: boolean;
 }
 
-const Chats: React.FC<ChatsProps> = ({ messages }) => {
+const Chats: React.FC<ChatsProps> = ({ messages, isProcessing, isFileSent }) => {
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const scrollToBottom = () => {
@@ -15,12 +17,22 @@ const Chats: React.FC<ChatsProps> = ({ messages }) => {
         scrollToBottom();
     }, [messages]);
 
+    const renderInitialState = () => {
+        if (isProcessing) {
+            return "Processing your PDF...";
+        } else if (isFileSent && !messages.length) {
+            return "PDF Processed";
+        } else {
+            return "Hello, Upload your PDF to chat";
+        }
+    };
+
     return (
         <div className="h-full overflow-y-auto pr-2 sm:pr-4 space-y-3 sm:space-y-4 scrollbar-custom">
             {messages.length === 0 ? (
                 <div className="flex items-center justify-center h-full">
                     <p className="text-lg sm:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-stone-600 to-[#bd976d] font-bold text-center px-4">
-                        Hello, Upload your PDF to chat
+                        {renderInitialState()}
                     </p>
                 </div>
             ) : (
