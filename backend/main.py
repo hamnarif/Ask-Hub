@@ -3,8 +3,18 @@ from fastapi.responses import JSONResponse
 import os
 from tempfile import NamedTemporaryFile
 from table_processing import process_pdf_to_paragraph
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/process-pdf/")
 async def process_pdf_endpoint(file: UploadFile):

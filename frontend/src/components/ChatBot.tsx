@@ -1,20 +1,21 @@
 import { useState } from "react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
-import Chats from "./Chats"; 
-import pencilChatIcon from "../assets/pencil-chat.svg"; 
+import Chats from "./Chats";
+import pencilChatIcon from "../assets/pencil-chat.svg";
 
 const ChatBot = () => {
     const [uploadedFile, setUploadedFile] = useState<string | null>(null);
     const [isUploading, setIsUploading] = useState(false);
     const [isFileSent, setIsFileSent] = useState(false); // To track if the file has been sent
+    const [isProcessing, setIsProcessing] = useState(false); // To track PDF processing
     const navigate = useNavigate();
 
     const [messages, setMessages] = useState<{ user?: string; bot?: string; file?: string }[]>([]);
     const [inputValue, setInputValue] = useState("");
 
     const handleNewChat = () => {
-        window.location.reload(); 
+        window.location.reload();
     };
 
     const scrollToSection = (section: string) => {
@@ -32,16 +33,45 @@ const ChatBot = () => {
     const handleAboutClick = () => scrollToSection("about-section");
     const handleContactClick = () => scrollToSection("contact-section");
 
-    const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (isFileSent) {
             alert("You can only upload one PDF per chat.");
             return;
         }
+
         const file = event.target.files?.[0];
         if (file && file.type === "application/pdf") {
             setIsUploading(true);
-            setUploadedFile(file.name); // Save the file name in state
-            setTimeout(() => setIsUploading(false), 2000);
+            setIsProcessing(true); // Start processing indicator
+            setUploadedFile(file.name); // Set the file name immediately
+
+            // Send the file to the backend
+            const formData = new FormData();
+            formData.append("file", file);
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/process-pdf/", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    setIsFileSent(true);
+                } else {
+                    const error = await response.json();
+                    alert(`Error: ${error.detail}`);
+                    setUploadedFile(null);
+                    setIsFileSent(false);
+                }
+            } catch (err) {
+                alert("An error occurred while uploading the PDF. Please try again.");
+                setUploadedFile(null);
+                setIsFileSent(false);
+            } finally {
+                setIsUploading(false);
+                setIsProcessing(false); // End processing indicator
+            }
         } else {
             alert("Only PDF files are allowed!");
         }
@@ -50,6 +80,7 @@ const ChatBot = () => {
     const handleRemoveFile = () => {
         setUploadedFile(null);
         setIsUploading(false);
+        setIsProcessing(false);
         (document.getElementById("file-upload") as HTMLInputElement).value = "";
     };
 
@@ -90,8 +121,8 @@ const ChatBot = () => {
             </div>
 
             {/* Mobile New Chat Icon */}
-            <div 
-                className="fixed top-20 left-4 md:hidden z-20 bg-gradient-to-r from-[#a87f58] to-[#292524] p-3 rounded-full shadow-lg cursor-pointer hover:brightness-110 transition-all duration-200" 
+            <div
+                className="fixed top-20 left-4 md:hidden z-20 bg-gradient-to-r from-[#a87f58] to-[#292524] p-3 rounded-full shadow-lg cursor-pointer hover:brightness-110 transition-all duration-200"
                 onClick={handleNewChat}
             >
                 <img
@@ -114,14 +145,17 @@ const ChatBot = () => {
                         {/* File Upload Icon */}
                         <div className="absolute top-1/2 left-3 transform -translate-y-1/2 text-stone-200 z-10">
                             {!isFileSent && (
-                                <label htmlFor="file-upload" className="cursor-pointer p-2">
+                                <label 
+                                    htmlFor="file-upload" 
+                                    className={`cursor-pointer p-2 ${(isUploading || isProcessing) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                >
                                     <svg
                                         width="800px"
                                         height="800px"
                                         viewBox="0 0 16 16"
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
-                                        className="w-4 sm:w-5 h-4 sm:h-5 fill-white"
+                                        className={`w-4 sm:w-5 h-4 sm:h-5 fill-white ${(isUploading || isProcessing) ? 'opacity-50' : ''}`}
                                     >
                                         <path
                                             fill="#FFFFFF"
@@ -136,6 +170,7 @@ const ChatBot = () => {
                                 accept="application/pdf"
                                 className="hidden"
                                 onChange={handleFileUpload}
+                                disabled={isUploading || isProcessing}
                             />
                         </div>
 
@@ -148,7 +183,7 @@ const ChatBot = () => {
                             {uploadedFile && (
                                 <div className="flex items-center space-x-2 mb-2">
                                     <div className="bg-red-700 p-1.5 sm:p-2 rounded-full">
-                                        {isUploading ? (
+                                        {isUploading || isProcessing ? (
                                             <svg
                                                 className="animate-spin h-6 w-6 text-white"
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -188,18 +223,17 @@ const ChatBot = () => {
                                     </button>
                                 </div>
                             )}
-
                             <textarea
                                 className="bg-transparent outline-none w-full text-sm sm:text-base text-stone-100 placeholder:text-stone-200 resize-none overflow-hidden"
                                 placeholder="Ask Hub"
-                                disabled={!uploadedFile && !isFileSent}
+                                disabled={isUploading || isProcessing}
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                                 onKeyDown={(e) => {
                                     if (e.key === "Enter" && e.shiftKey) {
                                         e.preventDefault();
                                         setInputValue((prev) => prev + "\n");
-                                    } else if (e.key === "Enter") {
+                                    } else if (e.key === "Enter" && inputValue.trim() !== "") {
                                         e.preventDefault();
                                         handleSendMessage();
                                     }
@@ -210,12 +244,20 @@ const ChatBot = () => {
 
                         {/* Send Button */}
                         <div className="absolute top-1/2 right-3 transform -translate-y-1/2">
-                            <button onClick={handleSendMessage} className="p-2">
+                            <button
+                                onClick={handleSendMessage}
+                                className="p-2"
+                                disabled={isUploading || isProcessing || inputValue.trim() === ""}
+                            >
                                 <svg
                                     version="1.1"
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 122.88 122.88"
-                                    className="w-4 sm:w-5 h-4 sm:h-5 fill-current text-stone-200 transition duration-300 ease-in-out hover:brightness-200 hover:drop-shadow-glow"
+                                    className={`w-4 sm:w-5 h-4 sm:h-5 fill-current text-stone-200 transition duration-300 ease-in-out ${
+                                        isUploading || isProcessing || inputValue.trim() === ""
+                                            ? "opacity-50 cursor-not-allowed"
+                                            : "hover:brightness-200 hover:drop-shadow-glow"
+                                    }`}
                                 >
                                     <polygon points="122.88,0 81.35,122.88 62.34,60.54 0,41.53 122.88,0" />
                                 </svg>

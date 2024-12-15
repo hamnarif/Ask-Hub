@@ -7,7 +7,7 @@ const Navbar: React.FC<{
     onContactClick: () => void;
 }> = ({ onServicesClick, onAboutClick, onContactClick }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate(); 
 
     const handleHomeClick = () => {
         if (window.location.pathname === "/") {
