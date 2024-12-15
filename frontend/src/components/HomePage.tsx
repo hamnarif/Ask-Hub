@@ -29,7 +29,7 @@ const HomePage: React.FC = () => {
     };
 
     const handleFreeTrialClick = () => {
-        navigate("/chatbot"); // Navigate to the ChatBotPage
+        navigate("/chatbot"); 
     };
 
     const sectionVariants = {
