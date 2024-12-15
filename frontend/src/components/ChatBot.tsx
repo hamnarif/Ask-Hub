@@ -127,7 +127,7 @@ const ChatBot = () => {
                     alt="New Chat"
                     className="w-8 h-8 hover:brightness-125 transition duration-200"
                 />
-                <span className="text-stone-200 text-sm">New Chat</span>
+                <span className="text-stone-300 text-sm">New Chat</span>
             </div>
 
             {/* Mobile New Chat Icon */}
