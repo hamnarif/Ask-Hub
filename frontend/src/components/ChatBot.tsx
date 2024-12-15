@@ -14,8 +14,14 @@ const ChatBot = () => {
     const [messages, setMessages] = useState<{ user?: string; bot?: string; file?: string }[]>([]);
     const [inputValue, setInputValue] = useState("");
 
+    // Reset state for a new chat without reloading the page
     const handleNewChat = () => {
-        window.location.reload();
+        setMessages([]);
+        setUploadedFile(null);
+        setIsUploading(false);
+        setIsFileSent(false);
+        setIsProcessing(false);
+        setInputValue("");
     };
 
     const scrollToSection = (section: string) => {
@@ -56,7 +62,6 @@ const ChatBot = () => {
                 });
 
                 if (response.ok) {
-                    // const result = await response.json();
                     setIsFileSent(true);
                 } else {
                     const error = await response.json();
@@ -81,28 +86,33 @@ const ChatBot = () => {
         setUploadedFile(null);
         setIsUploading(false);
         setIsProcessing(false);
+        setInputValue("");
         (document.getElementById("file-upload") as HTMLInputElement).value = "";
     };
 
     const handleSendMessage = () => {
         if (!uploadedFile && inputValue.trim() === "") return; // Prevent empty messages
-
+    
+        // Add the new message to the chat
         const newMessage = {
-            file: uploadedFile || undefined, // Add the file if uploaded
-            user: inputValue.trim() || undefined, // Add user input if provided
-            bot: "Backend not connected", // Add a bot response
+            file: uploadedFile || undefined,
+            user: inputValue.trim() || undefined,
+            bot: "Backend not connected", // Replace this with backend response later
         };
-
-        setMessages((prev) => [...prev, newMessage]); // Add the message to the chat
-        setInputValue(""); // Clear the text input
-
-        if (uploadedFile) {
-            setIsFileSent(true); // Mark the file as sent
-            setUploadedFile(null); // Reset the uploaded file
-            (document.getElementById("file-upload") as HTMLInputElement).value = ""; // Clear file input
-        }
+    
+        // Clear the file and input states **before** updating the messages
+        setUploadedFile(null); // Reset file state
+        setIsFileSent(false); // Reset file sent state
+        setInputValue(""); // Clear text input
+    
+        // Clear file input in DOM
+        const fileInput = document.getElementById("file-upload") as HTMLInputElement;
+        if (fileInput) fileInput.value = "";
+    
+        // Update the chat messages
+        setMessages((prev) => [...prev, newMessage]);
     };
-
+    
     return (
         <div className="h-screen w-screen flex flex-col bg-stone-900 overflow-hidden">
             <Navbar
@@ -229,7 +239,7 @@ const ChatBot = () => {
                             <textarea
                                 className="bg-transparent outline-none w-full text-sm sm:text-base text-stone-100 placeholder:text-stone-200 resize-none overflow-hidden"
                                 placeholder="Ask Hub"
-                                disabled={isUploading || isProcessing}
+                                disabled={!uploadedFile || isUploading || isProcessing} // Disable when no file or uploading/processing
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                                 onKeyDown={(e) => {
