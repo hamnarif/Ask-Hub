@@ -249,8 +249,7 @@ const HomePage: React.FC = () => {
                 )}
 
                 <div className="flex justify-center">
-                    <div className="w-full max-w-3xl  p-8  shadow-lg bg-[#292524] border border-[rgba(255,255,255,0.2)]">
-                        <h2 className="text-2xl md:text-5xl font-bold text-center tracking-wider mb-10 text-[#bd976d]">
+                <div className="w-full max-w-3xl p-4 sm:p-8 shadow-lg bg-[#292524] border border-[rgba(255,255,255,0.2)] mx-auto">                        <h2 className="text-2xl md:text-5xl font-bold text-center tracking-wider mb-10 text-[#bd976d]">
                             Get in Touch with Us!
                         </h2>
 
@@ -401,8 +400,8 @@ const HomePage: React.FC = () => {
             {/* Contact and Copyright Section */}
             < section
                 id="contact-section"
-                className="py-16 px-6 sm:px-24 text-[#f2e9da]"
-            >
+                className="py-16 px-4 sm:px-6 md:px-24 text-[#f2e9da] safe-area-inset"
+                >
                 {/* Contact Section */}
                 < div className="flex flex-col-reverse sm:flex-row w-full justify-between items-center sm:items-end space-y-6 sm:space-y-0" >
                     {/* Copyright */}
