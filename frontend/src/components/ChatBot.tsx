@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import Chats from "./Chats";
@@ -15,6 +15,16 @@ const ChatBot = () => {
     const [inputValue, setInputValue] = useState("");
 
     const abortControllerRef = useRef<AbortController | null>(null);
+
+    // Add cleanup effect when component unmounts
+    useEffect(() => {
+        return () => {
+            // Cleanup function that runs when component unmounts
+            if (isProcessing && uploadedFile) {
+                handleRemoveFile();
+            }
+        };
+    }, [isProcessing, uploadedFile]);
 
     // Reset state for a new chat without reloading the page
     const handleNewChat = () => {
@@ -95,13 +105,15 @@ const ChatBot = () => {
         if (abortControllerRef.current) {
             // Abort the ongoing fetch request
             abortControllerRef.current.abort();
+        }
     
-            // Optionally, send a cancellation signal to the backend
+        if (uploadedFile) {
+            // Send cancellation signal to the backend
             try {
                 await fetch("http://127.0.0.1:8000/cancel-processing/", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ filename: uploadedFile }), // Pass the file name or identifier
+                    body: JSON.stringify({ filename: uploadedFile }),
                 });
             } catch (err) {
                 console.error("Error sending cancellation request to backend:", err);
@@ -112,8 +124,14 @@ const ChatBot = () => {
         setUploadedFile(null);
         setIsUploading(false);
         setIsProcessing(false);
+        setIsFileSent(false);
         setInputValue("");
-        (document.getElementById("file-upload") as HTMLInputElement).value = "";
+        
+        // Reset file input if it exists
+        const fileInput = document.getElementById("file-upload") as HTMLInputElement;
+        if (fileInput) {
+            fileInput.value = "";
+        }
     };
     
     const handleSendMessage = () => {
