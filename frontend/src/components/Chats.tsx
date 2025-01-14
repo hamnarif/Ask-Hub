@@ -28,17 +28,17 @@ const Chats: React.FC<ChatsProps> = ({ messages, isProcessing, isFileSent }) => 
     };
 
     return (
-        <div className="h-full overflow-y-auto pr-2 sm:pr-4 space-y-3 sm:space-y-4 scrollbar-custom">
+        <section className="h-full overflow-y-auto pr-2 sm:pr-4 space-y-3 sm:space-y-4 scrollbar-custom">
             {messages.length === 0 ? (
-                <div className="flex items-center justify-center h-full">
+                <article className="flex items-center justify-center h-full">
                     <p className="text-lg sm:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-stone-600 to-[#bd976d] font-bold text-center px-4">
                         {renderInitialState()}
                     </p>
-                </div>
+                </article>
             ) : (
                 <>
                     {messages.map((message, index) => (
-                        <div key={index} className="space-y-3 sm:space-y-4">
+                        <article key={index} className="space-y-3 sm:space-y-4">
                             {/* User Input */}
                             {(message.user || message.file) && (
                                 <div className="flex justify-end">
@@ -76,12 +76,12 @@ const Chats: React.FC<ChatsProps> = ({ messages, isProcessing, isFileSent }) => 
                                     </div>
                                 </div>
                             )}
-                        </div>
+                        </article>
                     ))}
                     <div ref={messagesEndRef} />
                 </>
             )}
-        </div>
+        </section>
     );
 };
 

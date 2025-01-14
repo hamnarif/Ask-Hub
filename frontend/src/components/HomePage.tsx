@@ -70,8 +70,7 @@ const HomePage: React.FC = () => {
 
 
     return (
-        <div className="bg-stone-900 overflow-hidden">
-            {/* Navbar */}
+        <main className="bg-stone-900 overflow-hidden">
             <Navbar
                 onServicesClick={handleServicesClick}
                 onAboutClick={handleAboutClick}
@@ -79,7 +78,7 @@ const HomePage: React.FC = () => {
             />
 
             {/* Hero Section */}
-            <section
+            <header
                 className="relative flex flex-col justify-center text-left min-h-screen md:items-start items-center"
                 style={{
                     backgroundImage: `url(${backgroundImage})`,
@@ -92,7 +91,7 @@ const HomePage: React.FC = () => {
                 <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
                 {/* Content */}
-                <div className="relative flex flex-col md:flex-row">
+                <article className="relative flex flex-col md:flex-row">
                     <div className="max-w-2xl md:pl-24 text-center md:text-left space-y-4">
                         {/* Hero Heading */}
                         <motion.h1
@@ -137,10 +136,7 @@ const HomePage: React.FC = () => {
                     </div>
 
                     {/* Button */}
-                    <div
-                        onClick={handleFreeTrialClick}
-
-                        className="flex w-full justify-center md:w-auto mt-6">
+                    <aside onClick={handleFreeTrialClick} className="flex w-full justify-center md:w-auto mt-6">
                         <motion.div
                             className="flex flex-col gap-4 items-center md:justify-end"
                             initial="hidden"
@@ -153,18 +149,17 @@ const HomePage: React.FC = () => {
                                 <span className="tracking-wider relative">Free Trial</span>
                             </button>
                         </motion.div>
-                    </div>
-                </div>
-            </section>
-
+                    </aside>
+                </article>
+            </header>
 
             {/* About Section */}
             <motion.section
                 id="about-section"
                 className="py-12 px-4 sm:px-8 lg:px-12"
-                ref={aboutRef} // Independent ref for About Us
+                ref={aboutRef}
                 initial="hidden"
-                animate={aboutInView ? "visible" : "hidden"} // Animation trigger for About Us
+                animate={aboutInView ? "visible" : "hidden"}
                 variants={sectionVariants}
             >
                 <h2 className="text-4xl md:text-6xl font-bold text-left tracking-wider mb-10 text-[#bd976d]">
@@ -179,7 +174,6 @@ const HomePage: React.FC = () => {
                     Experience smarter, faster, and safer ways to work with your data.
                 </p>
             </motion.section>
-
 
             {/* Services Section */}
             <motion.section
@@ -227,7 +221,6 @@ const HomePage: React.FC = () => {
                 </div>
             </motion.section>
 
-
             {/* Form Section */}
             <motion.section
                 id="form-section"
@@ -237,28 +230,23 @@ const HomePage: React.FC = () => {
                 variants={sectionVariants}
             >
                 {toastVisible && (
-                    <div
-                        className="fixed top-20 left-4 bg-[#292524] text-[#f2e9da] border border-[#bd976d] rounded-md px-6 py-3 shadow-lg z-50"
+                    <aside className="fixed top-20 left-4 bg-[#292524] text-[#f2e9da] border border-[#bd976d] rounded-md px-6 py-3 shadow-lg z-50"
                         style={{
                             textShadow: "1px 1px 2px rgba(0, 0, 0, 0.6)",
-                            maxWidth: "80%", // Adjust width for responsiveness
+                            maxWidth: "80%",
                         }}
                     >
-                        Your message    has been sent successfully!
-                    </div>
+                        Your message has been sent successfully!
+                    </aside>
                 )}
 
-                <div className="flex justify-center">
-                    <div className="w-full max-w-3xl  p-8  shadow-lg bg-[#292524] border border-[rgba(255,255,255,0.2)]">
+                <article className="flex justify-center">
+                    <div className="w-full max-w-3xl p-8 shadow-lg bg-[#292524] border border-[rgba(255,255,255,0.2)]">
                         <h2 className="text-2xl md:text-5xl font-bold text-center tracking-wider mb-10 text-[#bd976d]">
                             Get in Touch with Us!
                         </h2>
 
-
                         <form className="max-w-md mx-auto" onSubmit={handleFormSubmit}>
-
-
-
                             <style>
                                 {`
                                 input:-webkit-autofill,
@@ -289,8 +277,6 @@ const HomePage: React.FC = () => {
                                 }
                             `}
                             </style>
-
-
 
                             <div className="relative z-0 w-full mb-5 group">
                                 <input
@@ -390,40 +376,30 @@ const HomePage: React.FC = () => {
                                 <span className="relative tracking-wider">Send Message</span>
                             </button>
                         </form>
-
-
-
                     </div>
-                </div>
-            </motion.section >
-
+                </article>
+            </motion.section>
 
             {/* Contact and Copyright Section */}
-            < section
-                id="contact-section"
-                className="py-16 px-6 sm:px-24 text-[#f2e9da]"
-            >
-                {/* Contact Section */}
-                < div className="flex flex-col-reverse sm:flex-row w-full justify-between items-center sm:items-end space-y-6 sm:space-y-0" >
-                    {/* Copyright */}
-                    < div className="text-center sm:text-left my-8  text-sm sm:text-base text-stone-400" >
-                        <p>© Copyright ASH-HUB 2024. All rights reserved.</p>
-                    </div >
+            <footer id="contact-section" className="py-16 px-6 sm:px-24 text-[#f2e9da]">
+                <article className="flex flex-col-reverse sm:flex-row w-full justify-between items-center sm:items-end space-y-6 sm:space-y-0">
+                    <small className="text-center sm:text-left my-8 text-sm sm:text-base text-stone-400">
+                        © Copyright ASH-HUB 2024. All rights reserved.
+                    </small>
 
-                    {/* Contact Information */}
-                    < div className="flex flex-row items-center space-x-2" >
+                    <address className="flex flex-row items-center space-x-2">
                         {/* Vertical Contact Heading */}
-                        < div className="flex-shrink-0" >
+                        <div className="flex-shrink-0">
                             <h2
                                 className="text-3xl sm:text-4xl font-bold tracking-tighter text-[#bd976d]"
                                 style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
                             >
                                 CONTACT
                             </h2>
-                        </div >
+                        </div>
 
                         {/* Contact Details */}
-                        < div className="flex flex-col space-y-8 text-center sm:text-left" >
+                        <div className="flex flex-col space-y-8 text-center sm:text-left">
                             <div>
                                 <p className="text-lg sm:text-xl">+92 333 8933350</p>
                             </div>
@@ -466,12 +442,11 @@ const HomePage: React.FC = () => {
                                     </svg>
                                 </a>
                             </div>
-                        </div >
-                    </div >
-                </div >
-            </section >
-
-        </div >
+                        </div>
+                    </address>
+                </article>
+            </footer>
+        </main>
     );
 };
 

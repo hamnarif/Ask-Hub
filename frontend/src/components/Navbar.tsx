@@ -46,9 +46,9 @@ const Navbar: React.FC<{
     };
 
     return (
-        <nav className="fixed top-0 w-full z-20 bg-stone-900 bg-opacity-30 backdrop-blur-md border-b border-[#bd976d]">
-            <div className="flex justify-end items-center px-6 sm:px-12 md:px-20 py-4">
-                {/* Navigation Links for Larger Screens */}
+        <header className="fixed top-0 w-full z-20 bg-stone-900 bg-opacity-30 backdrop-blur-md border-b border-[#bd976d]">
+            <nav className="flex justify-end items-center px-6 sm:px-12 md:px-20 py-4">
+                {/* Desktop Navigation */}
                 <ul className="hidden sm:flex space-x-6 md:space-x-8 text-[#f2e9da] text-sm sm:text-base md:text-lg font-medium uppercase tracking-widest">
                     <li
                         className="hover:text-[#bd976d] transition-all duration-300 cursor-pointer"
@@ -80,19 +80,20 @@ const Navbar: React.FC<{
                 </ul>
 
                 {/* Mobile Toggle Icon */}
-                <div
+                <button
                     className="sm:hidden flex items-center cursor-pointer"
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    aria-label="Toggle menu"
                 >
                     <div className="flex flex-col items-center">
                         <div className="w-8 h-[1px] bg-[#f2e9da] mb-1"></div>
                         <div className="w-8 h-[.5px] bg-[#f2e9da]"></div>
                     </div>
-                </div>
-            </div>
+                </button>
+            </nav>
 
             {/* Mobile Dropdown Menu */}
-            <div
+            <aside
                 className={`absolute top-16 right-4 z-10 sm:hidden transform text-[#f2e9da] transition-all duration-500 font-light text-sm tracking-wider ease-in-out ${
                     isMenuOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
                 }`}
@@ -141,8 +142,8 @@ const Navbar: React.FC<{
                         CONTACT
                     </li>
                 </ul>
-            </div>
-        </nav>
+            </aside>
+        </header>
     );
 };
 

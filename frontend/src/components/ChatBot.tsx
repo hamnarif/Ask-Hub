@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import Chats from "./Chats";
@@ -13,6 +13,8 @@ const ChatBot = () => {
 
     const [messages, setMessages] = useState<{ user?: string; bot?: string; file?: string }[]>([]);
     const [inputValue, setInputValue] = useState("");
+
+    const abortControllerRef = useRef<AbortController | null>(null);
 
     // Reset state for a new chat without reloading the page
     const handleNewChat = () => {
@@ -48,10 +50,11 @@ const ChatBot = () => {
         const file = event.target.files?.[0];
         if (file && file.type === "application/pdf") {
             setIsUploading(true);
-            setIsProcessing(true); // Start processing indicator
-            setUploadedFile(file.name); // Set the file name immediately
+            setIsProcessing(true);
+            setUploadedFile(file.name);
 
-            // Send the file to the backend
+            // Create new AbortController for this request
+            abortControllerRef.current = new AbortController();
             const formData = new FormData();
             formData.append("file", file);
 
@@ -59,6 +62,7 @@ const ChatBot = () => {
                 const response = await fetch("http://127.0.0.1:8000/process-pdf/", {
                     method: "POST",
                     body: formData,
+                    signal: abortControllerRef.current.signal // Add abort signal
                 });
 
                 if (response.ok) {
@@ -69,27 +73,49 @@ const ChatBot = () => {
                     setUploadedFile(null);
                     setIsFileSent(false);
                 }
-            } catch (err) {
-                alert("An error occurred while uploading the PDF. Please try again.");
+            } catch (err: any) {
+                if (err.name === 'AbortError') {
+                    console.log('Request was cancelled');
+                } else {
+                    alert("An error occurred while uploading the PDF. Please try again.");
+                }
                 setUploadedFile(null);
                 setIsFileSent(false);
             } finally {
                 setIsUploading(false);
-                setIsProcessing(false); // End processing indicator
+                setIsProcessing(false);
+                abortControllerRef.current = null;
             }
         } else {
             alert("Only PDF files are allowed!");
         }
     };
 
-    const handleRemoveFile = () => {
+    const handleRemoveFile = async () => {
+        if (abortControllerRef.current) {
+            // Abort the ongoing fetch request
+            abortControllerRef.current.abort();
+    
+            // Optionally, send a cancellation signal to the backend
+            try {
+                await fetch("http://127.0.0.1:8000/cancel-processing/", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ filename: uploadedFile }), // Pass the file name or identifier
+                });
+            } catch (err) {
+                console.error("Error sending cancellation request to backend:", err);
+            }
+        }
+    
+        // Reset state variables
         setUploadedFile(null);
         setIsUploading(false);
         setIsProcessing(false);
         setInputValue("");
         (document.getElementById("file-upload") as HTMLInputElement).value = "";
     };
-
+    
     const handleSendMessage = () => {
         if (!uploadedFile && inputValue.trim() === "") return; // Prevent empty messages
     
@@ -114,37 +140,35 @@ const ChatBot = () => {
     };
     
     return (
-        <div className="h-screen w-screen flex flex-col bg-stone-900 overflow-hidden">
+        <main className="h-screen w-screen flex flex-col bg-stone-900 overflow-hidden">
             <Navbar
                 onServicesClick={handleServicesClick}
                 onAboutClick={handleAboutClick}
                 onContactClick={handleContactClick}
             />
+            
             {/* Desktop New Chat Icon */}
-            <div className="absolute top-20 left-8 cursor-pointer hidden md:flex items-center space-x-2 z-10" onClick={handleNewChat}>
+            <aside className="absolute top-20 left-8 cursor-pointer hidden md:flex items-center space-x-2 z-10" onClick={handleNewChat}>
                 <img
                     src={pencilChatIcon}
                     alt="New Chat"
                     className="w-8 h-8 hover:brightness-125 transition duration-200"
                 />
                 <span className="text-stone-300 text-sm">New Chat</span>
-            </div>
+            </aside>
 
             {/* Mobile New Chat Icon */}
-            <div
-                className="fixed top-20 left-4 md:hidden z-20 bg-gradient-to-r from-[#a87f58] to-[#292524] p-3 rounded-full shadow-lg cursor-pointer hover:brightness-110 transition-all duration-200"
-                onClick={handleNewChat}
-            >
+            <aside className="fixed top-20 left-4 md:hidden z-20 bg-gradient-to-r from-[#a87f58] to-[#292524] p-3 rounded-full shadow-lg cursor-pointer hover:brightness-110 transition-all duration-200"
+                onClick={handleNewChat}>
                 <img
                     src={pencilChatIcon}
                     alt="New Chat"
                     className="w-6 h-6 brightness-200"
                 />
-            </div>
+            </aside>
 
-            <div className="flex-1 flex items-center justify-center px-4 sm:px-6 md:px-8 relative">
-                {/* Chat Component */}
-                <div className="bg-stone-950 text-center rounded-xl shadow-lg p-4 sm:p-6 w-full md:w-10/12 lg:w-8/12 h-[85vh] flex flex-col">
+            <section className="flex-1 flex items-center justify-center px-4 sm:px-6 md:px-8 relative">
+                <article className="bg-stone-950 text-center rounded-xl shadow-lg p-4 sm:p-6 w-full md:w-10/12 lg:w-8/12 h-[85vh] flex flex-col">
                     {/* Chats Component */}
                     <div className="flex-1 overflow-hidden">
                         <Chats
@@ -276,9 +300,9 @@ const ChatBot = () => {
                             </button>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                </article>
+            </section>
+        </main>
     );
 };
 

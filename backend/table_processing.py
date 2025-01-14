@@ -11,7 +11,7 @@ from PyPDF2 import PdfReader, PdfWriter
 import tempfile
 from langchain.schema import Document
 
-#  cd backend source a-venv/bin/activate
+#  cd backend source a-venv/bin/activate uvicorn main:app --reload
 
 
 def extract_headers_txt(pdf_path: str):
