@@ -6,6 +6,11 @@ from table_processing import process_pdf_to_paragraph
 from fastapi.middleware.cors import CORSMiddleware
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
+from pydantic import BaseModel
+from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
+from RAG import query_engine
+
 
 app = FastAPI()
 executor = ThreadPoolExecutor()
@@ -13,6 +18,9 @@ ongoing_tasks = {}  # Dictionary to track ongoing tasks and their temp files
 
 class CancellationRequest(BaseModel):
     filename: str
+class UserInputRequest(BaseModel):
+    user_input: str
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -88,6 +96,21 @@ async def process_pdf_endpoint(file: UploadFile, request: Request):
         if temp_pdf_path and os.path.exists(temp_pdf_path):
             os.remove(temp_pdf_path)
         raise HTTPException(status_code=500, detail=f"Processing failed: {str(e)}")
+
+
+@app.post("/query/")
+async def query(request: UserInputRequest):
+    user_input = request.user_input
+
+    # Perform the query
+    window_response = query_engine.query(user_input)
+
+    # Convert the response to a JSON-compatible format
+    result_dict = jsonable_encoder(window_response)
+
+    # Return the response content
+    return JSONResponse(content={"answer": result_dict.get('response', '')})
+
 
 async def cleanup_task(filename: str):
     """Helper function to clean up task and temporary files"""
