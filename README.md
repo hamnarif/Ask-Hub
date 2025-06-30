@@ -5,16 +5,16 @@ Your Data, Your Control, Our AI.
 
 ## Project Screenshots
 
-### Load Screen
+### Load 
 ![Load Screen](load.png)
 
-### Home Screen
+### Home 
 ![Home Screen](home.png)
 
-### Others Screen
+### ABout, Services and Contact
 ![Others Screen](others.png)
 
-### Chatbot Screen
+### Chatbot 
 ![Chatbot Screen](chatbot.png)
 
 ---
